@@ -81,13 +81,13 @@ const OurOffer = () => {
                             </h4>
                             <ul className="list-disc list-inside mb-4">
                                 {offer.methodologies.map((method) => (
-                                    <li>{method}</li>
+                                    <li key={method}>{method}</li>
                                 ))}
                             </ul>
                             <h4 className="font-semibold mb-2">Benefits:</h4>
                             <ul className="list-disc list-inside mb-4">
                                 {offer.benefits.map((benefit) => (
-                                    <li>{benefit}</li>
+                                    <li key={benefit}>{benefit}</li>
                                 ))}
                             </ul>
                             <Button asChild>
