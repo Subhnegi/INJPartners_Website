@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -14,7 +13,8 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Moon, Sun, Search } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Moon, Sun, Search, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
@@ -23,105 +23,102 @@ export default function Navbar() {
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-14 items-center">
-                <NavigationMenu>
-                    <NavigationMenuList>
-                        <NavigationMenuItem>
-                            <Link href="/" legacyBehavior passHref>
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                >
-                                    <span className="font-bold">
-                                        InsightPulse
-                                    </span>
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <NavigationMenuTrigger>
-                                Services
-                            </NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                                    <li className="row-span-3">
-                                        <NavigationMenuLink asChild>
-                                            <Link
-                                                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                                href="/services"
-                                            >
-                                                <div className="mb-2 mt-4 text-lg font-medium">
-                                                    Our Services
-                                                </div>
-                                                <p className="text-sm leading-tight text-muted-foreground">
-                                                    Explore our range of market
-                                                    research services
-                                                </p>
-                                            </Link>
-                                        </NavigationMenuLink>
-                                    </li>
-                                    <ListItem
-                                        href="/services/consumer-behavior"
-                                        title="Consumer Behavior"
+                <Link href="/" className="flex items-center space-x-2">
+                    <span className="font-bold text-xl">InsightPulse</span>
+                </Link>
+                <div className="flex-1" />
+                <div className="hidden md:flex">
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>
+                                    Services
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                                        <li className="row-span-3">
+                                            <NavigationMenuLink asChild>
+                                                <a
+                                                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                                                    href="/services"
+                                                >
+                                                    <div className="mb-2 mt-4 text-lg font-medium">
+                                                        Our Services
+                                                    </div>
+                                                    <p className="text-sm leading-tight text-muted-foreground">
+                                                        Explore our range of
+                                                        market research services
+                                                    </p>
+                                                </a>
+                                            </NavigationMenuLink>
+                                        </li>
+                                        <ListItem
+                                            href="/services/consumer-behavior"
+                                            title="Consumer Behavior"
+                                        >
+                                            Understand your customers' needs and
+                                            preferences
+                                        </ListItem>
+                                        <ListItem
+                                            href="/services/competitive-intelligence"
+                                            title="Competitive Intelligence"
+                                        >
+                                            Stay ahead of market trends and
+                                            competitors
+                                        </ListItem>
+                                        <ListItem
+                                            href="/services/trend-forecasting"
+                                            title="Trend Forecasting"
+                                        >
+                                            Predict future market shifts and
+                                            opportunities
+                                        </ListItem>
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <Link href="/about" legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyle()}
                                     >
-                                        Understand your customers' needs and
-                                        preferences
-                                    </ListItem>
-                                    <ListItem
-                                        href="/services/competitive-intelligence"
-                                        title="Competitive Intelligence"
+                                        About
+                                    </NavigationMenuLink>
+                                </Link>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <Link href="/contact" legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyle()}
                                     >
-                                        Stay ahead of market trends and
-                                        competitors
-                                    </ListItem>
-                                    <ListItem
-                                        href="/services/trend-forecasting"
-                                        title="Trend Forecasting"
+                                        Contact
+                                    </NavigationMenuLink>
+                                </Link>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <Link href="/blog" legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyle()}
                                     >
-                                        Predict future market shifts and
-                                        opportunities
-                                    </ListItem>
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <Link href="/about" legacyBehavior passHref>
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                >
-                                    About
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <Link href="/contact" legacyBehavior passHref>
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                >
-                                    Contact
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <Link href="/blog" legacyBehavior passHref>
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                >
-                                    Blog
-                                </NavigationMenuLink>
-                            </Link>
-                            <Link href="/careers" legacyBehavior passHref>
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                >
-                                    Careers
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
-                    </NavigationMenuList>
-                </NavigationMenu>
-                <div className="flex items-center ml-auto space-x-4">
+                                        Blog
+                                    </NavigationMenuLink>
+                                </Link>
+                                </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <Link href="/careers" legacyBehavior passHref>
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyle()}
+                                    >
+                                        Careers
+                                    </NavigationMenuLink>
+                                </Link>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
+                </div>
+                <div className="flex items-center space-x-4">
                     <form
                         onSubmit={(e) => e.preventDefault()}
-                        className="relative"
+                        className="relative hidden md:block"
                     >
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -143,6 +140,66 @@ export default function Navbar() {
                         <Moon className="absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                         <span className="sr-only">Toggle theme</span>
                     </Button>
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="md:hidden"
+                            >
+                                <Menu className="h-5 w-5" />
+                                <span className="sr-only">Toggle menu</span>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right">
+                            <nav className="flex flex-col space-y-4">
+                                <Link href="/" className="text-lg font-medium">
+                                    Home
+                                </Link>
+                                <Link
+                                    href="/services"
+                                    className="text-lg font-medium"
+                                >
+                                    Services
+                                </Link>
+                                <Link
+                                    href="/about"
+                                    className="text-lg font-medium"
+                                >
+                                    About
+                                </Link>
+                                <Link
+                                    href="/contact"
+                                    className="text-lg font-medium"
+                                >
+                                    Contact
+                                </Link>
+                                <Link
+                                    href="/blog"
+                                    className="text-lg font-medium"
+                                >
+                                    Blog
+                                </Link>
+                                <Link
+                                    href="/careers"
+                                    className="text-lg font-medium"
+                                >
+                                    Careers
+                                </Link>
+                                <form
+                                    onSubmit={(e) => e.preventDefault()}
+                                    className="relative"
+                                >
+                                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        type="search"
+                                        placeholder="Search..."
+                                        className="pl-8 w-full"
+                                    />
+                                </form>
+                            </nav>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </header>

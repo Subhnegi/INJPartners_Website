@@ -30,7 +30,9 @@ import {
     Briefcase,
     User,
     HelpCircle,
+    Menu,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 // Mock data for demonstration purposes
 const pageData = [
@@ -84,6 +86,7 @@ const sections = [
 export default function AdminDashboard() {
     const [activeSection, setActiveSection] = useState("pages");
     const [searchTerm, setSearchTerm] = useState("");
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const filteredData = activeSection === "pages" ? pageData : userData;
 
@@ -173,43 +176,68 @@ export default function AdminDashboard() {
         }
     };
 
+    const SidebarContent = () => (
+        <div className="p-4">
+            <h2 className="text-2xl font-bold text-primary mb-4">
+                Admin Panel
+            </h2>
+            <nav>
+                {sections.map((section) => (
+                    <button
+                        type="button"
+                        key={section.id}
+                        onClick={() => {
+                            setActiveSection(section.id);
+                            setIsSidebarOpen(false);
+                        }}
+                        className={`flex items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left rounded-lg ${
+                            activeSection === section.id
+                                ? "bg-gray-200 text-gray-900"
+                                : "bg-transparent text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+                        }`}
+                    >
+                        <section.icon className="w-5 h-5 mr-2" />
+                        {section.name}
+                    </button>
+                ))}
+            </nav>
+        </div>
+    );
+
     return (
         <div className="flex h-screen bg-gray-100">
-            {/* Side Panel */}
-            <div className="w-64 bg-white shadow-md">
-                <div className="p-4">
-                    <h2 className="text-2xl font-bold text-primary mb-4">
-                        Admin Panel
-                    </h2>
-                    <nav>
-                        {sections.map((section) => (
-                            <button
-                                key={section.id}
-                                onClick={() => setActiveSection(section.id)}
-                                className={`flex items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left rounded-lg ${
-                                    activeSection === section.id
-                                        ? "bg-gray-200 text-gray-900"
-                                        : "bg-transparent text-gray-600 hover:bg-gray-200 hover:text-gray-900"
-                                }`}
-                            >
-                                <section.icon className="w-5 h-5 mr-2" />
-                                {section.name}
-                            </button>
-                        ))}
-                    </nav>
-                </div>
+            {/* Sidebar for larger screens */}
+            <div className="hidden md:block w-64 bg-white shadow-md">
+                <SidebarContent />
             </div>
+
+            {/* Sidebar for mobile screens */}
+            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                <SheetContent side="left" className="w-64 p-0">
+                    <SidebarContent />
+                </SheetContent>
+                <SheetTrigger asChild className="md:hidden">
+                            <Button variant="outline" size="icon">
+                                <Menu className="h-6 w-6" />
+                            </Button>
+                </SheetTrigger>
+            </Sheet>
 
             {/* Main Content */}
             <div className="flex-1 overflow-auto">
                 <div className="container mx-auto px-4 py-8">
-                    <header className="mb-8">
-                        <h1 className="text-4xl font-bold text-primary mb-2">
-                            {sections.find((s) => s.id === activeSection)?.name}
-                        </h1>
-                        <p className="text-xl text-muted-foreground">
-                            Manage your {activeSection}
-                        </p>
+                    <header className="mb-8 flex justify-between items-center">
+                        <div>
+                            <h1 className="text-4xl font-bold text-primary mb-2">
+                                {
+                                    sections.find((s) => s.id === activeSection)
+                                        ?.name
+                                }
+                            </h1>
+                            <p className="text-xl text-muted-foreground">
+                                Manage your {activeSection}
+                            </p>
+                        </div>
                     </header>
 
                     <Card className="mb-8">
@@ -247,8 +275,8 @@ export default function AdminDashboard() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="mb-4 flex justify-between items-center">
-                                <div className="relative w-64">
+                            <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div className="relative w-full sm:w-64">
                                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                                     <Input
                                         placeholder={`Search ${activeSection}...`}
@@ -263,7 +291,9 @@ export default function AdminDashboard() {
                                     Add New {activeSection.slice(0, -1)}
                                 </Button>
                             </div>
-                            {renderTable()}
+                            <div className="overflow-x-auto">
+                                {renderTable()}
+                            </div>
                         </CardContent>
                     </Card>
                 </div>

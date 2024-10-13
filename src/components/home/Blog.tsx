@@ -29,6 +29,29 @@ const Blog = () => {
             setBlogCurrent(blogApi.selectedScrollSnap());
         });
     }, [blogApi]);
+    const carouselContent=[
+        {
+            title: "The Future of AI in Market Research",
+            date: "May 15, 2023",
+        },
+        {
+            title: "Understanding Gen Z Consumer Behavior",
+            date: "May 10, 2023",
+        },
+        {
+            title: "Sustainable Brands: A Market Analysis",
+            date: "May 5, 2023",
+        },
+        {
+            title: "Sustainable Brands: A Market Analysis",
+            date: "May 5, 2023",
+        },
+        {
+            title: "Sustainable Brands: A Market Analysis",
+            date: "May 5, 2023",
+        },
+    ]
+
     return (
         <section className="py-16 bg-background">
             <div className="container mx-auto">
@@ -36,32 +59,12 @@ const Blog = () => {
                     Latest Insights
                 </h2>
                 <Carousel
-                    className="w-full max-w-xs sm:max-w-2xl lg:max-w-5xl mx-auto"
+                    className="w-full max-w-xs sm:max-w-2xl lg:max-w-5xl mx-auto py-8"
                     setApi={setBlogApi}
                 >
+                    <div className="py-8">
                     <CarouselContent className="-ml-4">
-                        {[
-                            {
-                                title: "The Future of AI in Market Research",
-                                date: "May 15, 2023",
-                            },
-                            {
-                                title: "Understanding Gen Z Consumer Behavior",
-                                date: "May 10, 2023",
-                            },
-                            {
-                                title: "Sustainable Brands: A Market Analysis",
-                                date: "May 5, 2023",
-                            },
-                            {
-                                title: "Sustainable Brands: A Market Analysis",
-                                date: "May 5, 2023",
-                            },
-                            {
-                                title: "Sustainable Brands: A Market Analysis",
-                                date: "May 5, 2023",
-                            },
-                        ].map((post, index) => (
+                        {carouselContent.map((post, index) => (
                             <CarouselItem
                                 key={index}
                                 className="pl-4 md:basis-1/2 lg:basis-1/3"
@@ -95,11 +98,12 @@ const Blog = () => {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
+                    </div>
                     <CarouselPrevious />
                     <CarouselNext />
                 </Carousel>
                 <div className="py-2 text-center space-x-1">
-                    {[...Array(3)].map((_, i) => (
+                    {[...Array(carouselContent.length)].map((_, i) => (
                         <Button
                             key={i}
                             variant="outline"

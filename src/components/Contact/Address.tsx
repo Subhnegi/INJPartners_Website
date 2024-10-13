@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const Address = () => {
     return (
         <div className="space-y-8">
-            <Card>
+            <Card >
                 <CardHeader>
                     <CardTitle>Our Offices</CardTitle>
                 </CardHeader>
@@ -47,13 +47,13 @@ const Address = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-4 w-96">
+                    <div className="mt-4">
                         <Image
                             src="/placeholder.jpg"
                             alt="Office Locations Map"
                             width={400}
                             height={200}
-                            className="w-full h-auto rounded-lg"
+                            className="w-96 h-auto rounded-lg"
                         />
                     </div>
                 </CardContent>

@@ -19,7 +19,16 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noDebugger": "off",
+				"noConsoleLog": "info",
+				"noExplicitAny":"off"
+			},
+			"style": {
+				"noShoutyConstants": "warn",
+				"useNamingConvention": "error"
+			}
 		}
 	},
 	"javascript": {
@@ -27,4 +36,5 @@
 			"quoteStyle": "double"
 		}
 	}
+
 }

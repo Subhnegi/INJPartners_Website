@@ -3,6 +3,8 @@
 import Story from "@/components/About/Story";
 import Founder from "@/components/About/Founder";
 import Values from "@/components/About/Values";
+import Mission from "@/components/About/Mission";
+import Team from "@/components/About/Team";
 
 export default function About() {
     return (
@@ -18,10 +20,12 @@ export default function About() {
 
             {/* Story section */}
             <Story/>
-
+            {/* Mission and Vision section */}
+            <Mission/>
             {/* Founders section */}
             <Founder/>
-
+            {/* Our Team section */}
+            <Team/>
             {/* Values and Culture section */}
             <Values/>
         </div>
