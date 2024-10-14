@@ -58,18 +58,6 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             </div>
         );
     }
-
-    if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
-    }
-
-    if (error) {
-        return (
-            <div className="container mx-auto px-4 py-8 text-red-500">
-                {error}
-            </div>
-        );
-    }
     return (
         <div className="min-h-screen bg-background">
             <main className="container mx-auto px-4 py-12">
@@ -129,7 +117,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                     <h2 className="text-2xl font-bold mb-6">Related Posts</h2>
                     <div className="grid gap-6 md:grid-cols-2">
                         {relatedPosts.map((relatedPost) => (
-                            <Card>
+                            <Card key={relatedPost.id}>
                                 <CardHeader>
                                     <CardTitle>{relatedPost.title}</CardTitle>
                                     <CardDescription>
