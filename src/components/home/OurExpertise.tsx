@@ -33,7 +33,7 @@ const OurExpertise = () => {
                         { icon: Phone, title: "Telecom" },
                     ].map((industry, index) => (
                         <Card
-                            key={index}
+                            key={industry.title}
                             className="flex flex-col items-center text-center"
                         >
                             <CardHeader>

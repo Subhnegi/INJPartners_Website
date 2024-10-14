@@ -1,12 +1,48 @@
-
-
+"use client";
 import Story from "@/components/About/Story";
 import Founder from "@/components/About/Founder";
 import Values from "@/components/About/Values";
 import Mission from "@/components/About/Mission";
 import Team from "@/components/About/Team";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
+type Team = {
+    id: string
+    name: string
+    role: string
+    bio: string
+    imageUrl: string
+  }
 export default function About() {
+    const [team, setTeam] = useState<Team[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    useEffect(() => {
+        
+        const fetchTeam = async () => {
+            try {
+                const res = await axios("http://localhost:3000/api/about/team");
+                setTeam(res.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to fetch team. Please try again later.");
+                setLoading(false);
+            }
+        };
+        fetchTeam();
+    }, []);
+    if (loading) {
+        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    }
+    
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-red-500">
+                {error}
+            </div>
+        );
+    }
     return (
         <div className="container mx-auto px-4 py-8">
             <header className="text-center mb-12">
@@ -25,7 +61,7 @@ export default function About() {
             {/* Founders section */}
             <Founder/>
             {/* Our Team section */}
-            <Team/>
+            <Team team={team}/>
             {/* Values and Culture section */}
             <Values/>
         </div>

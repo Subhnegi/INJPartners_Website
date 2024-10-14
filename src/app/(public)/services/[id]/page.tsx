@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, CheckCircle2 } from "lucide-react";
@@ -9,31 +10,44 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import axios from "axios";
+type Data = [{
+    
+}];
+export default function SingleServicePage({params}:{params:{id:string}}) {
+    const [service, setService] = useState<Data[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const id=params.id;
+    useEffect(() => {
+    const fetchService = async () => {
+        try {
+            const response = await axios<{ services: Data[] }>(
+                `/api/services/${id}`
+            );
+            setService(response.data);
+            setLoading(false);
+        } catch (err) {
+            setError("Failed to fetch services. Please try again later.");
+            setLoading(false);
+        }
+    };
 
-// This would typically come from a database or API
-const serviceData = {
-    id: "consumer-behavior-analysis",
-    title: "Consumer Behavior Analysis",
-    description:
-        "Uncover the driving forces behind consumer decisions with our advanced analytics and methodologies.",
-    image: "/placeholder.jpg?height=400&width=800",
-    benefits: [
-        "Gain deep insights into purchasing patterns",
-        "Understand consumer preferences and motivations",
-        "Develop targeted marketing strategies",
-        "Improve product development based on consumer needs",
-        "Enhance overall customer experience",
-    ],
-    methodologies: [
-        "Surveys and Questionnaires",
-        "Focus Groups",
-        "Social Media Listening",
-        "Purchase Data Analysis",
-        "Behavioral Tracking",
-    ],
-};
+    fetchService();
+}, []);
 
-export default function SingleServicePage() {
+if (loading) {
+    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+}
+
+if (error) {
+    return (
+        <div className="container mx-auto px-4 py-8 text-red-500">
+            {error}
+        </div>
+    );
+}
     return (
         <div className="container mx-auto px-4 py-8">
             <Link
@@ -44,17 +58,17 @@ export default function SingleServicePage() {
                 Back to Services
             </Link>
 
-            <div className="grid gap-8 md:grid-cols-2">
+            {<div className="grid gap-8 md:grid-cols-2">
                 <div>
                     <h1 className="text-4xl font-bold text-primary mb-4">
-                        {serviceData.title}
+                        {service.title}
                     </h1>
                     <p className="text-xl text-muted-foreground mb-6">
-                        {serviceData.description}
+                        {service.description}
                     </p>
                     <Image
-                        src={serviceData.image}
-                        alt={serviceData.title}
+                        src={service.image}
+                        alt={service.title}
                         width={800}
                         height={400}
                         className="rounded-lg object-cover w-full"
@@ -71,7 +85,7 @@ export default function SingleServicePage() {
                         </CardHeader>
                         <CardContent>
                             <ul className="space-y-2">
-                                {serviceData.benefits.map((benefit, index) => (
+                                {service.benefits.map((benefit, index) => (
                                     <li
                                         key={index}
                                         className="flex items-start"
@@ -93,7 +107,7 @@ export default function SingleServicePage() {
                         </CardHeader>
                         <CardContent>
                             <ul className="list-disc list-inside space-y-2">
-                                {serviceData.methodologies.map(
+                                {service.methodologies.map(
                                     (methodology, index) => (
                                         <li key={index}>{methodology}</li>
                                     )
@@ -106,7 +120,7 @@ export default function SingleServicePage() {
                         Request a Consultation
                     </Button>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 }

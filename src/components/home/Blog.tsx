@@ -1,6 +1,6 @@
-"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import {
     Card,
     CardContent,
@@ -18,9 +18,11 @@ import {
 } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 import { type CarouselApi } from "@/components/ui/carousel";
-const Blog = () => {
+import Link from "next/link";
+const Blog = ({blogContent}) => {
     const [blogApi, setBlogApi] = useState<CarouselApi>();
     const [blogCurrent, setBlogCurrent] = useState(0);
+    
     useEffect(() => {
         if (!blogApi) {
             return;
@@ -29,28 +31,6 @@ const Blog = () => {
             setBlogCurrent(blogApi.selectedScrollSnap());
         });
     }, [blogApi]);
-    const carouselContent=[
-        {
-            title: "The Future of AI in Market Research",
-            date: "May 15, 2023",
-        },
-        {
-            title: "Understanding Gen Z Consumer Behavior",
-            date: "May 10, 2023",
-        },
-        {
-            title: "Sustainable Brands: A Market Analysis",
-            date: "May 5, 2023",
-        },
-        {
-            title: "Sustainable Brands: A Market Analysis",
-            date: "May 5, 2023",
-        },
-        {
-            title: "Sustainable Brands: A Market Analysis",
-            date: "May 5, 2023",
-        },
-    ]
 
     return (
         <section className="py-16 bg-background">
@@ -64,9 +44,9 @@ const Blog = () => {
                 >
                     <div className="py-8">
                     <CarouselContent className="-ml-4">
-                        {carouselContent.map((post, index) => (
+                        {blogContent.map((post) => (
                             <CarouselItem
-                                key={index}
+                                key={post.id}
                                 className="pl-4 md:basis-1/2 lg:basis-1/3"
                             >
                                 <div className="h-full">
@@ -79,19 +59,18 @@ const Blog = () => {
                                         </CardHeader>
                                         <CardContent className="flex-grow">
                                             <p>
-                                                Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit. Sed
-                                                do eiusmod tempor incididunt ut
-                                                labore et dolore magna aliqua.
+                                                {post.summary}
                                             </p>
                                         </CardContent>
                                         <CardFooter>
+                                            <Link href={`/blog/${post.id}`}>
                                             <Button
                                                 variant="outline"
                                                 className="w-full"
-                                            >
+                                                >
                                                 Read More
                                             </Button>
+                                                </Link>
                                         </CardFooter>
                                     </Card>
                                 </div>
@@ -103,7 +82,7 @@ const Blog = () => {
                     <CarouselNext />
                 </Carousel>
                 <div className="py-2 text-center space-x-1">
-                    {[...Array(carouselContent.length)].map((_, i) => (
+                    {[...Array(blogContent.length)].map((_, i) => (
                         <Button
                             key={i}
                             variant="outline"

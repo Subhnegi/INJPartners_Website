@@ -16,9 +16,24 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Moon, Sun, Search, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 
 export default function Navbar() {
     const { setTheme, theme } = useTheme();
+    const [services, setServices] = React.useState<Data[]>([]);
+    React.useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const response = await axios<{ services: Data[] }>(
+                    "/api/services"
+                );
+                setServices(response.data);
+            } catch (err) {
+                console.log("error in navbar",err);
+            }
+        };
+        fetchServices();
+    },[])
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -52,27 +67,14 @@ export default function Navbar() {
                                                 </a>
                                             </NavigationMenuLink>
                                         </li>
-                                        <ListItem
-                                            href="/services/consumer-behavior"
-                                            title="Consumer Behavior"
+                                        {services.map((service)=>(
+                                            <ListItem
+                                            href={`/services/${service.id}`}
+                                            title={service.title}
+                                            key={service.id}
                                         >
-                                            Understand your customers' needs and
-                                            preferences
-                                        </ListItem>
-                                        <ListItem
-                                            href="/services/competitive-intelligence"
-                                            title="Competitive Intelligence"
-                                        >
-                                            Stay ahead of market trends and
-                                            competitors
-                                        </ListItem>
-                                        <ListItem
-                                            href="/services/trend-forecasting"
-                                            title="Trend Forecasting"
-                                        >
-                                            Predict future market shifts and
-                                            opportunities
-                                        </ListItem>
+                                            {service.content}
+                                        </ListItem>))}
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>

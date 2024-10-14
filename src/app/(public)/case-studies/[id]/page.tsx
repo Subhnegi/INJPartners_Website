@@ -19,6 +19,8 @@ import {
     Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 ChartJS.register(
     CategoryScale,
@@ -29,17 +31,50 @@ ChartJS.register(
     Legend
 );
 
+
+export default function CaseStudyPage({params}:{params:{id:string}}) {
+    const [study, setStudy] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const id=params.id;
+    useEffect(() => {
+    const fetchStudy = async () => {
+        try {
+            const response = await axios<{ services: any[] }>(
+                `/api/case-studies/${id}`
+            );
+            setStudy(response.data);
+            setLoading(false);
+        } catch (err) {
+            setError("Failed to fetch services. Please try again later.");
+            setLoading(false);
+        }
+    };
+    fetchStudy();
+}, []);
+
+if (loading) {
+    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+}
+
+if (error) {
+    return (
+        <div className="container mx-auto px-4 py-8 text-red-500">
+            {error}
+        </div>
+    );
+}
 const chartData = {
-    labels: ["Awareness", "Consideration", "Preference", "Purchase Intent"],
+    labels: [...study.results.map((result) => result.category)],
     datasets: [
         {
             label: "Before",
-            data: [30, 20, 15, 10],
+            data: [...study.results.map((result) => result.before)],
             backgroundColor: "rgba(147, 197, 253, 0.8)",
         },
         {
             label: "After",
-            data: [80, 60, 50, 40],
+            data: [...study.results.map((result) => result.after)],
             backgroundColor: "rgba(59, 130, 246, 0.8)",
         },
     ],
@@ -57,8 +92,6 @@ const chartOptions = {
         },
     },
 };
-
-export default function CaseStudyPage() {
     return (
         <div className="min-h-screen bg-background">
             <header className="bg-primary text-primary-foreground py-6">
@@ -69,36 +102,27 @@ export default function CaseStudyPage() {
                 </div>
             </header>
 
-            <main className="container mx-auto px-4 py-12">
+                <main className="container mx-auto px-4 py-12">
                 <h2 className="text-4xl font-bold mb-8">
-                    Case Study: Revitalizing Brand X
+                    Case Study: {study.title}
                 </h2>
 
                 <Card className="mb-12">
                     <CardHeader>
                         <CardTitle>Project Overview</CardTitle>
                         <CardDescription>
-                            How we helped Brand X increase market share by 35%
+                            {study.description}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <p className="mb-4">
-                            Brand X, a leading consumer electronics company, was
-                            facing declining market share and brand relevance.
-                            Our comprehensive market research and strategy
-                            implementation led to a significant turnaround in
-                            their market position.
+                            {study.overview}
                         </p>
                         <h3 className="text-2xl font-semibold mb-2">
                             Key Achievements:
                         </h3>
                         <ul className="list-disc pl-6 mb-4">
-                            <li>Increased brand awareness by 50%</li>
-                            <li>Boosted customer engagement by 75%</li>
-                            <li>Improved product satisfaction scores by 40%</li>
-                            <li>
-                                Grew market share from 15% to 50% in 12 months
-                            </li>
+                            {study.achievements.map((achievement)=>(<li key={achievement}>{achievement}</li>))}
                         </ul>
                     </CardContent>
                 </Card>
@@ -109,17 +133,9 @@ export default function CaseStudyPage() {
                     </CardHeader>
                     <CardContent>
                         <ol className="list-decimal pl-6">
-                            <li className="mb-2">
-                                Comprehensive market analysis
-                            </li>
-                            <li className="mb-2">
-                                In-depth consumer surveys (n=5000)
-                            </li>
-                            <li className="mb-2">
-                                Focus groups in 10 major cities
-                            </li>
-                            <li className="mb-2">Competitor benchmarking</li>
-                            <li>Social media sentiment analysis</li>
+                            {study.methodology.map((method)=>(<li key={method} className="mb-2">
+                                {method}
+                            </li>))}
                         </ol>
                     </CardContent>
                 </Card>
@@ -144,27 +160,12 @@ export default function CaseStudyPage() {
                     </CardHeader>
                     <CardContent>
                         <ul className="list-disc pl-6">
-                            <li className="mb-2">
-                                Identified a gap in the market for eco-friendly
-                                electronics
-                            </li>
-                            <li className="mb-2">
-                                Discovered untapped potential in the 25-34 age
-                                demographic
-                            </li>
-                            <li className="mb-2">
-                                Uncovered customer pain points in after-sales
-                                service
-                            </li>
-                            <li>
-                                Recognized the growing importance of social
-                                media influencers in purchase decisions
-                            </li>
+                        {study.insights.map((insight)=>(<li key={insight}>{insight}</li>))}
                         </ul>
                     </CardContent>
                 </Card>
             </main>
-
+            
             <section className="bg-secondary py-12">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold mb-4">

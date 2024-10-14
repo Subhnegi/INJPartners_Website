@@ -8,7 +8,9 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-const  RecentProjects = () => {
+import Link from "next/link";
+
+const  RecentProjects = ({projects}: {projects: any[]}) => {
     return (
         <section className="py-16 bg-muted">
             <div className="container mx-auto">
@@ -16,24 +18,9 @@ const  RecentProjects = () => {
                     Recent Projects
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[
-                        {
-                            title: "E-commerce Growth Strategy",
-                            client: "TechGiant Inc.",
-                            image: "/placeholder.jpg",
-                        },
-                        {
-                            title: "Market Expansion Analysis",
-                            client: "GreenEnergy Co.",
-                            image: "/placeholder.jpg",
-                        },
-                        {
-                            title: "Market Expansion Analysis",
-                            client: "GreenEnergy Co.",
-                            image: "/placeholder.jpg",
-                        },
-                    ].map((project, index) => (
-                        <Card key={index}>
+                    {projects.map((project, index) => (
+                        <Link key={index} href={`/projects/${project.id}`}>
+                        <Card className="cursor-pointer">
                             <CardHeader>
                                 <CardTitle>{project.title}</CardTitle>
                                 <CardDescription>
@@ -51,11 +38,12 @@ const  RecentProjects = () => {
                             </CardContent>
                             <CardFooter>
                                 <p className="italic">
-                                    "InsightPulse's analysis was crucial for our
-                                    success." - Client CEO
+                                    {project.commment}<br/>
+                                    {project.commentBy}
                                 </p>
                             </CardFooter>
                         </Card>
+                        </Link>
                     ))}
                 </div>
             </div>
