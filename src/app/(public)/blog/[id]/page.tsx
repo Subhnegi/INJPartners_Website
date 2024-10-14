@@ -15,7 +15,6 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Clock, Tag } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ReactMarkdown from "react-markdown";
 import { Content } from "@radix-ui/react-navigation-menu";
 export default function BlogPostPage({ params }: { params: { id: string } }) {
     const [post, setPost] = useState<any[]>([]);
