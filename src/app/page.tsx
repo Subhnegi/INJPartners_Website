@@ -9,14 +9,47 @@ import Blog from "@/components/home/Blog";
 import NewsletterSignup from "@/components/home/NewsletterSignup";
 import { useEffect, useState } from "react";
 import axios from "axios";
+interface Service {
+	id: string;
+	title: string;
+	content: string;
+	icon: string;
+    methodologies: string[];
+    benefits: string[];
+};
+interface BlogPost {
+    id: string;
+    title: string;
+    summary: string;
+    category: string;
+    image: string;
+    author: string;
+    date: string;
+}
+
+interface Project{
+    id: string;
+    title: string; 
+    client: string;
+    image: string;
+    commment: string;
+    commentBy: string;
+}
+
+interface Testimonials{
+        id:string;
+        name:string;
+        role:string;
+        testimonial:string;
+}
 
 export default function HomePage() {
 
 
-    const [testimonials, setTestimonials] = useState<any[]>([]);
-    const [blogContent, setBlogContent] = useState<any[]>([]);
-    const [projects, setProjects] = useState<any[]>([]);
-    const [services, setServices] = useState<Data[]>([]);
+    const [testimonials, setTestimonials] = useState<Testimonials[]>([]);
+    const [blogContent, setBlogContent] = useState<BlogPost[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -59,7 +92,7 @@ export default function HomePage() {
         const fetchServices = async () => {
             try {
                 setLoading(true)
-                const response = await axios<{ services: Data[] }>(
+                const response = await axios<Service[] >(
                     "/api/services"
                 );
                 setServices(response.data);
