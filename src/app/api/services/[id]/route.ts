@@ -1,4 +1,5 @@
 
+import type { NextApiRequest } from "next";
 import { NextResponse, NextRequest } from "next/server";
 
 type ServiceDetail = {
@@ -10,7 +11,7 @@ type ServiceDetail = {
 	methodologies: string[];
 };
 
-export async function GET(request, {params}: {params: {id: string}}) {
+export async function GET(request: NextApiRequest, {params}: {params: {id: string}}) {
     const id = params.id;
 	const services=[
         {
