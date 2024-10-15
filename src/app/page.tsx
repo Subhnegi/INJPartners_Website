@@ -54,59 +54,27 @@ export default function HomePage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchTestimonials = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true)
-                const res = await axios("http://localhost:3000/api/testimonials");
-                setTestimonials(res.data);
+                const tres = await axios("/api/testimonials");
+                setTestimonials(tres.data);
+                const bres = await axios("/api/blog");
+                setBlogContent(bres.data);
+                const pres = await axios("/api/projects");
+                setProjects(pres.data);
+                const sres = await axios<Service[] >(
+                    "/api/services"
+                );
+                setServices(sres.data);
                 setLoading(false);
             } catch (err) {
                 setError("Failed to fetch testimonials. Please try again later.");
                 setLoading(false);
             }
         };
-        const fetchBlogs = async () => {
-            try {
-                setLoading(true)
-                const res = await axios("http://localhost:3000/api/blog");
-                setBlogContent(res.data);
-                setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch blogs. Please try again later.");
-                setLoading(false);
-            }
-        };
 
-        const fetchProjects = async () => {
-            try {
-                setLoading(true)
-                const res = await axios("http://localhost:3000/api/projects");
-                setProjects(res.data);
-                setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch products. Please try again later.");
-                setLoading(false);
-            }
-        };
-
-        const fetchServices = async () => {
-            try {
-                setLoading(true)
-                const response = await axios<Service[] >(
-                    "/api/services"
-                );
-                setServices(response.data);
-                setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch services. Please try again later.");
-                setLoading(false);
-            }
-        };
-
-        fetchServices();
-        fetchTestimonials();
-        fetchBlogs();
-        fetchProjects();
+        fetchData()
     }, []);
     
 if (loading) {

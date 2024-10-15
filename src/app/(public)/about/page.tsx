@@ -22,7 +22,7 @@ export default function About() {
         
         const fetchTeam = async () => {
             try {
-                const res = await axios("http://localhost:3000/api/about/team");
+                const res = await axios("/api/about/team");
                 setTeam(res.data);
                 setLoading(false);
             } catch (err) {
