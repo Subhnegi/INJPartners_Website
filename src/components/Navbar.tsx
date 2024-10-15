@@ -17,14 +17,21 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Moon, Sun, Search, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-
+interface Service {
+	id: string;
+	title: string;
+	content: string;
+	icon: string;
+    methodologies: string[];
+    benefits: string[];
+};
 export default function Navbar() {
     const { setTheme, theme } = useTheme();
-    const [services, setServices] = React.useState<Data[]>([]);
+    const [services, setServices] = React.useState<Service[]>([]);
     React.useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await axios<{ services: Data[] }>(
+                const response = await axios< Service[]>(
                     "/api/services"
                 );
                 setServices(response.data);
