@@ -7,17 +7,17 @@ import Team from "@/components/About/Team";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-type Team = {
-    id: string
-    name: string
-    role: string
-    bio: string
-    imageUrl: string
+interface TeamMember {
+    id: string;
+    name: string;
+    role: string;
+    bio: string;
+    imageUrl: string;
   }
 export default function About() {
-    const [team, setTeam] = useState<Team[]>([]);
+    const [team, setTeam] = useState<TeamMember[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null); 
     useEffect(() => {
         
         const fetchTeam = async () => {

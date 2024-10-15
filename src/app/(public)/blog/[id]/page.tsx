@@ -15,36 +15,52 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Clock, Tag } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Content } from "@radix-ui/react-navigation-menu";
+
+interface Post {
+    id: string;
+    title: string;
+    author: string;
+    readingTime: number;
+    image: string;
+    tags: string[];
+    content: {
+        introduction: string;
+        sections: {
+            title: string;
+            content: string[];
+        }[];
+    };
+    relatedPosts: string[];
+    summary?: string;
+}
+
 export default function BlogPostPage({ params }: { params: { id: string } }) {
-    const [post, setPost] = useState<any[]>([]);
-    const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
+    const [post, setPost] = useState<Post | null>(null);
+    const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const id = params.id;
+
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await axios<{ post: any[] }>(
-                    `/api/blog/${id}`
-                );
+                const response = await axios.get<Post>(`/api/blog/${id}`);
                 setPost(response.data);
-                const response1 = await axios<{ post: any[] }>(
-                    `/api/blog/${response.data.relatedPosts[0]}`
+                const relatedPostsData = await Promise.all(
+                    response.data.relatedPosts.slice(0, 2).map(relatedId =>
+                        axios.get<Post>(`/api/blog/${relatedId}`)
+                    )
                 );
-                const response2 = await axios<{ post: any[] }>(
-                    `/api/blog/${response.data.relatedPosts[1]}`
-                );
-                setRelatedPosts([response1.data, response2.data]);
+                setRelatedPosts(relatedPostsData.map(resp => resp.data));
                 setLoading(false);
             } catch (err) {
-                setError("Failed to fetch services. Please try again later.");
+                setError("Failed to fetch blog post. Please try again later.");
                 setLoading(false);
             }
         };
 
         fetchPost();
-    }, []);
+    }, [id]);
 
     if (loading) {
         return <div className="container mx-auto px-4 py-8">Loading...</div>;
@@ -57,6 +73,11 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             </div>
         );
     }
+
+    if (!post) {
+        return <div className="container mx-auto px-4 py-8">Post not found</div>;
+    }
+
     return (
         <div className="min-h-screen bg-background">
             <main className="container mx-auto px-4 py-12">
@@ -96,19 +117,15 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                     />
 
                     <div className="prose prose-lg max-w-none">
-                        <div className="prose prose-lg max-w-none">
-                            <p>{post.content.introduction}</p>
-                            {post.content.sections.map((section) => (
-                                <div key={section.title}>
-                                    <h2>{section.title}</h2>
-                                    
-                                        {section.content.map((paragraph,index) => (
-                                            <p key={index}>{index+1})&nbsp;{paragraph}</p>
-                                        ))}
-                                    
-                                </div>
-                            ))}
-                        </div>
+                        <p>{post.content.introduction}</p>
+                        {post.content.sections.map((section) => (
+                            <div key={section.title}>
+                                <h2>{section.title}</h2>
+                                {section.content.map((paragraph, index) => (
+                                    <p key={index}>{index + 1})&nbsp;{paragraph}</p>
+                                ))}
+                            </div>
+                        ))}
                     </div>
                 </article>
                 <Separator className="my-12" />

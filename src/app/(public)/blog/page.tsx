@@ -17,40 +17,48 @@ import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 import axios from "axios";
 
+interface BlogPost {
+    id: string;
+    title: string;
+    summary: string;
+    category: string;
+    image: string;
+    author: string;
+    date: string;
+}
 
 export default function BlogPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [blogPosts, setBlogPosts] = useState<any[]>([]);
+    const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
-    const fetchStudy = async () => {
-        try {
-            const response = await axios<{ services: any[] }>(
-                `/api/blog`
-            );
-            setBlogPosts(response.data);
-            setLoading(false);
-        } catch (err) {
-            setError("Failed to fetch services. Please try again later.");
-            setLoading(false);
-        }
-    };
-    fetchStudy();
-}, []);
+        const fetchBlogPosts = async () => {
+            try {
+                const response = await axios.get<BlogPost[]>("/api/blog");
+                setBlogPosts(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to fetch blog posts. Please try again later.");
+                setLoading(false);
+            }
+        };
+        fetchBlogPosts();
+    }, []);
 
-if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
-}
+    if (loading) {
+        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    }
 
-if (error) {
-    return (
-        <div className="container mx-auto px-4 py-8 text-red-500">
-            {error}
-        </div>
-    );
-}
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-red-500">
+                {error}
+            </div>
+        );
+    }
 
     const categories = [
         "All",

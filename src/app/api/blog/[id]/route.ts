@@ -8,7 +8,7 @@ type BlogPost = {
 	image: string;
 	date: string;
 	author: string;
-	content: string;
+	content: { introduction: string; sections: { title: string; content: string[]; }[]; conclusion: string; };
 	readingTime: number;
 	tags: string[];
 	relatedPosts: number[];

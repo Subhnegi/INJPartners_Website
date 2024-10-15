@@ -1,6 +1,5 @@
+"use client"
 import Image from "next/image";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
 import { ChevronRight, Calendar, BarChart, Users, Target } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,81 +11,72 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-// This would typically come from a database or API
-const getProjectDetails = async (id: string) => {
-    // Simulating an API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const projects = {
-        "1": {
-            id: "1",
-            title: "E-commerce Growth Strategy for TechGiant Inc.",
-            client: "TechGiant Inc.",
-            industry: "Technology",
-            duration: "6 months",
-            date: "2023-01-15",
-            overview:
-                "Developed and implemented a comprehensive e-commerce growth strategy for TechGiant Inc., resulting in a 150% increase in online sales within 6 months.",
-            challenges: [
-                "Highly competitive e-commerce landscape",
-                "Limited brand recognition in certain market segments",
-                "Inefficient conversion funnel",
-            ],
-            solutions: [
-                "Conducted in-depth market analysis and competitor benchmarking",
-                "Developed targeted marketing campaigns for underperforming segments",
-                "Optimized the user journey and checkout process",
-            ],
-            results: [
-                "150% increase in online sales",
-                "40% improvement in conversion rate",
-                "60% increase in average order value",
-            ],
-            testimonial: {
-                quote: "InsightPulse's strategy transformed our e-commerce performance. Their data-driven approach and actionable insights were invaluable.",
-                author: "Jane Doe",
-                position: "CEO, TechGiant Inc.",
-            },
-            image: "/placeholder.jpg?height=400&width=600",
-        },
-    };
-
-    if (!(id in projects)) {
-        return null;
-    }
-
-    return projects[id as keyof typeof projects];
-};
-
-export async function generateMetadata({
-    params,
-}: {
-    params: { id: string };
-}): Promise<Metadata> {
-    const project = await getProjectDetails(params.id);
-
-    if (!project) {
-        return {
-            title: "Project Not Found",
-        };
-    }
-
-    return {
-        title: `${project.title} | InsightPulse Case Study`,
-        description: project.overview,
-    };
+interface Project {
+	id: string;
+	title: string;
+	client: string;
+	industry: string;
+	duration: string;
+	date: string;
+	overview: string;
+	challenges: string[];
+	solutions: string[];
+	results: string[];
+	testimonial: {
+		quote: string;
+		author: string;
+		position: string;
+	};
+	image: string;
+	slug: string;
 }
 
-export default async function ProjectPage({
+export default function ProjectPage({
     params,
 }: {
     params: { id: string };
 }) {
-    const project = await getProjectDetails(params.id);
+    const [project, setProject] = useState<Project>({} as Project);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const id = params.id;
+
+    useEffect(() => {
+        const fetchService = async () => {
+            try {
+                const response = await axios.get<Project>(
+                    `/api/projects/${id}`
+                );
+                setProject(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to fetch services. Please try again later.");
+                setLoading(false);
+            }
+        };
+
+        fetchService();
+    }, [id]);
+
+    if (loading) {
+        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    }
+
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-red-500">
+                {error}
+            </div>
+        );
+    }
 
     if (!project) {
-        notFound();
+        return (
+            <div className="container mx-auto px-4 py-8">Service not found</div>
+        );
     }
 
     return (

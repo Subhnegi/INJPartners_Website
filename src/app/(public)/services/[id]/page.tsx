@@ -12,42 +12,61 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import axios from "axios";
-type Data = [{
-    
-}];
-export default function SingleServicePage({params}:{params:{id:string}}) {
-    const [service, setService] = useState<Data[]>([]);
+
+interface ServiceDetail {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    benefits: string[];
+    methodologies: string[];
+}
+
+export default function SingleServicePage({
+    params,
+}: {
+    params: { id: string };
+}) {
+    const [service, setService] = useState<ServiceDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const id=params.id;
+    const id = params.id;
+
     useEffect(() => {
-    const fetchService = async () => {
-        try {
-            const response = await axios<{ services: Data[] }>(
-                `/api/services/${id}`
-            );
-            setService(response.data);
-            setLoading(false);
-        } catch (err) {
-            setError("Failed to fetch services. Please try again later.");
-            setLoading(false);
-        }
-    };
+        const fetchService = async () => {
+            try {
+                const response = await axios.get<ServiceDetail>(
+                    `/api/services/${id}`
+                );
+                setService(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to fetch services. Please try again later.");
+                setLoading(false);
+            }
+        };
 
-    fetchService();
-}, []);
+        fetchService();
+    }, [id]);
 
-if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
-}
+    if (loading) {
+        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    }
 
-if (error) {
-    return (
-        <div className="container mx-auto px-4 py-8 text-red-500">
-            {error}
-        </div>
-    );
-}
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-red-500">
+                {error}
+            </div>
+        );
+    }
+
+    if (!service) {
+        return (
+            <div className="container mx-auto px-4 py-8">Service not found</div>
+        );
+    }
+
     return (
         <div className="container mx-auto px-4 py-8">
             <Link
@@ -58,7 +77,7 @@ if (error) {
                 Back to Services
             </Link>
 
-            {<div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-2">
                 <div>
                     <h1 className="text-4xl font-bold text-primary mb-4">
                         {service.title}
@@ -120,7 +139,7 @@ if (error) {
                         Request a Consultation
                     </Button>
                 </div>
-            </div>}
+            </div>
         </div>
     );
 }

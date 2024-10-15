@@ -3,19 +3,33 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import CaseStudies from "@/components/Services/CaseStudies";
 import OurOffer from "@/components/Services/OurOffer";
-type Data = [{
-    
-}];
+interface Service {
+	id: string;
+	title: string;
+	content: string;
+	icon: string;
+    methodologies: string[];
+    benefits: string[];
+};
+  
+interface CaseStudy {
+    title: string;
+    description: string;
+    overview: string;
+    achievements: string[];
+    methodology: string[];
+    insights: string[];
+}
 export default function ServicesPage() {
-    const [services, setServices] = useState<Data[]>([]);
-    const [caseStudies, setCaseStudies] = useState<any[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
+    const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await axios<{ services: Data[] }>(
+                const response = await axios< Service[] >(
                     "/api/services"
                 );
                 setServices(response.data);
@@ -27,10 +41,10 @@ export default function ServicesPage() {
         };
         const fetchStudies = async () => {
             try {
-                const response = await axios<{ services: Data[] }>(
+                const res = await axios<CaseStudy[]>(
                     "/api/case-studies"
                 );
-                setCaseStudies(response.data);
+                setCaseStudies(res.data);
                 setLoading(false);
             } catch (err) {
                 setError("Failed to fetch services. Please try again later.");

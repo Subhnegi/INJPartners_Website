@@ -5,37 +5,43 @@ import FAQs from "@/components/Contact/FAQs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+interface FAQ {
+    id: string;
+    question: string;
+    answer: string;
+}
+
 export default function ContactPage() {
-    const [faqs, setFaqs] = useState<any[]>([]);
+    const [faqs, setFaqs] = useState<FAQ[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
-    const fetchStudy = async () => {
-        try {
-            const response = await axios<{ services: any[] }>(
-                `/api/faqs`
-            );
-            setFaqs(response.data);
-            setLoading(false);
-        } catch (err) {
-            setError("Failed to fetch services. Please try again later.");
-            setLoading(false);
-        }
-    };
-    fetchStudy();
-}, []);
+        const fetchFAQs = async () => {
+            try {
+                const response = await axios.get<FAQ[]>("/api/faqs");
+                setFaqs(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to fetch FAQs. Please try again later.");
+                setLoading(false);
+            }
+        };
+        fetchFAQs();
+    }, []);
 
-if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
-}
+    if (loading) {
+        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    }
 
-if (error) {
-    return (
-        <div className="container mx-auto px-4 py-8 text-red-500">
-            {error}
-        </div>
-    );
-}
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-red-500">
+                {error}
+            </div>
+        );
+    }
+
     return (
         <div className="container mx-auto px-4 py-8">
             <header className="text-center mb-12">
@@ -49,13 +55,13 @@ if (error) {
 
             <div className="grid gap-8 md:grid-cols-2">
                 {/* Contact form */}
-                <Form/>
+                <Form />
                 {/* Address */}
-                <Address/>
+                <Address />
             </div>
 
             {/* FAQs */}
-            <FAQs faqs={faqs}/>
+            <FAQs faqs={faqs} />
         </div>
     );
 }

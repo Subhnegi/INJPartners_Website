@@ -17,6 +17,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
@@ -31,67 +32,93 @@ ChartJS.register(
     Legend
 );
 
+interface StudyResult {
+    category: string;
+    before: number;
+    after: number;
+}
 
-export default function CaseStudyPage({params}:{params:{id:string}}) {
-    const [study, setStudy] = useState<any[]>([]);
+interface CaseStudy {
+    title: string;
+    description: string;
+    overview: string;
+    achievements: string[];
+    methodology: string[];
+    results: StudyResult[];
+    insights: string[];
+}
+
+export default function CaseStudyPage({ params }: { params: { id: string } }) {
+    const [study, setStudy] = useState<CaseStudy | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const id=params.id;
+    const id = params.id;
+
     useEffect(() => {
-    const fetchStudy = async () => {
-        try {
-            const response = await axios<{ services: any[] }>(
-                `/api/case-studies/${id}`
-            );
-            setStudy(response.data);
-            setLoading(false);
-        } catch (err) {
-            setError("Failed to fetch services. Please try again later.");
-            setLoading(false);
-        }
+        const fetchStudy = async () => {
+            try {
+                const response = await axios.get<CaseStudy>(
+                    `/api/case-studies/${id}`
+                );
+                setStudy(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to fetch case study. Please try again later.");
+                setLoading(false);
+            }
+        };
+        fetchStudy();
+    }, [id]);
+
+    if (loading) {
+        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    }
+
+    if (error) {
+        return (
+            <div className="container mx-auto px-4 py-8 text-red-500">
+                {error}
+            </div>
+        );
+    }
+
+    if (!study) {
+        return (
+            <div className="container mx-auto px-4 py-8">
+                Case study not found
+            </div>
+        );
+    }
+
+    const chartData = {
+        labels: study.results.map((result) => result.category),
+        datasets: [
+            {
+                label: "Before",
+                data: study.results.map((result) => result.before),
+                backgroundColor: "rgba(147, 197, 253, 0.8)",
+            },
+            {
+                label: "After",
+                data: study.results.map((result) => result.after),
+                backgroundColor: "rgba(59, 130, 246, 0.8)",
+            },
+        ],
     };
-    fetchStudy();
-}, []);
 
-if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
-}
+    const chartOptions: ChartOptions<"bar"> = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                stacked: false,
+            },
+            y: {
+                stacked: false,
+            },
+        },
+    };
 
-if (error) {
-    return (
-        <div className="container mx-auto px-4 py-8 text-red-500">
-            {error}
-        </div>
-    );
-}
-const chartData = {
-    labels: [...study.results.map((result) => result.category)],
-    datasets: [
-        {
-            label: "Before",
-            data: [...study.results.map((result) => result.before)],
-            backgroundColor: "rgba(147, 197, 253, 0.8)",
-        },
-        {
-            label: "After",
-            data: [...study.results.map((result) => result.after)],
-            backgroundColor: "rgba(59, 130, 246, 0.8)",
-        },
-    ],
-};
-
-const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            stacked: false,
-        },
-        y: {
-            stacked: false,
-        },
-    },
-};
     return (
         <div className="min-h-screen bg-background">
             <header className="bg-primary text-primary-foreground py-6">
@@ -102,7 +129,7 @@ const chartOptions = {
                 </div>
             </header>
 
-                <main className="container mx-auto px-4 py-12">
+            <main className="container mx-auto px-4 py-12">
                 <h2 className="text-4xl font-bold mb-8">
                     Case Study: {study.title}
                 </h2>
@@ -110,19 +137,17 @@ const chartOptions = {
                 <Card className="mb-12">
                     <CardHeader>
                         <CardTitle>Project Overview</CardTitle>
-                        <CardDescription>
-                            {study.description}
-                        </CardDescription>
+                        <CardDescription>{study.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <p className="mb-4">
-                            {study.overview}
-                        </p>
+                        <p className="mb-4">{study.overview}</p>
                         <h3 className="text-2xl font-semibold mb-2">
                             Key Achievements:
                         </h3>
                         <ul className="list-disc pl-6 mb-4">
-                            {study.achievements.map((achievement)=>(<li key={achievement}>{achievement}</li>))}
+                            {study.achievements.map((achievement, index) => (
+                                <li key={index}>{achievement}</li>
+                            ))}
                         </ul>
                     </CardContent>
                 </Card>
@@ -133,9 +158,11 @@ const chartOptions = {
                     </CardHeader>
                     <CardContent>
                         <ol className="list-decimal pl-6">
-                            {study.methodology.map((method)=>(<li key={method} className="mb-2">
-                                {method}
-                            </li>))}
+                            {study.methodology.map((method, index) => (
+                                <li key={index} className="mb-2">
+                                    {method}
+                                </li>
+                            ))}
                         </ol>
                     </CardContent>
                 </Card>
@@ -160,12 +187,14 @@ const chartOptions = {
                     </CardHeader>
                     <CardContent>
                         <ul className="list-disc pl-6">
-                        {study.insights.map((insight)=>(<li key={insight}>{insight}</li>))}
+                            {study.insights.map((insight, index) => (
+                                <li key={index}>{insight}</li>
+                            ))}
                         </ul>
                     </CardContent>
                 </Card>
             </main>
-            
+
             <section className="bg-secondary py-12">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold mb-4">
