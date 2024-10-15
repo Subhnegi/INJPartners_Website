@@ -1,10 +1,11 @@
 "use client";
+import type React from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import Openings from "@/components/Careers/Openings";
 import Benefits from "@/components/Careers/Benefits";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 interface JobOpening {
     id: string;
@@ -12,9 +13,12 @@ interface JobOpening {
     department: string;
     location: string;
     description: string;
+    responsibilities: string[];
+    qualifications: string[];
+    type: string; // Adding this based on the Openings component requirements
 }
 
-export default function CareersPage() {
+const CareersPage: React.FC = () => {
     const [jobOpenings, setJobOpenings] = useState<JobOpening[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -57,12 +61,8 @@ export default function CareersPage() {
                     Shape the Future of Market Research with Us
                 </p>
             </header>
-            {/* Openings section */}
             <Openings jobOpenings={jobOpenings} />
-            {/* Culture and Benefits section */}
             <Benefits />
-
-            {/* Apply section */}
             <div className="text-center mt-12">
                 <h3 className="text-2xl font-semibold mb-4">
                     Ready to Make an Impact?
@@ -84,4 +84,6 @@ export default function CareersPage() {
             </div>
         </div>
     );
-}
+};
+
+export default CareersPage;

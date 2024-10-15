@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import Link from "next/link";
 import {
     Card,
@@ -11,7 +11,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const Openings = ({ jobOpenings }) => {
+interface JobOpening {
+    title: string;
+    department: string;
+    type: string;
+    description: string;
+    responsibilities: string[];
+    qualifications: string[];
+}
+
+interface OpeningsProps {
+    jobOpenings: JobOpening[];
+}
+
+const Openings: React.FC<OpeningsProps> = ({ jobOpenings }) => {
     return (
         <section className="mb-16">
             <h2 className="text-3xl font-semibold mb-6">Current Openings</h2>
