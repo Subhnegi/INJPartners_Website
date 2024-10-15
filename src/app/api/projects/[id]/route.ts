@@ -1,4 +1,4 @@
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export interface Project {
@@ -21,7 +21,7 @@ export interface Project {
 	slug: string;
 }
 
-export async function GET(request: NextApiRequest, {params}: {params: {id: string}}) {
+export async function GET(request: NextRequest, {params}: {params: {id: string}}) {
     const id = params.id;
 	// In a real application, this data would come from a database
 	const projects: Project[] = [

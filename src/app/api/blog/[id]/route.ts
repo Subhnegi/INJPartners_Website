@@ -1,4 +1,4 @@
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 // Define the structure of our blog post data
 type BlogPost = {
@@ -15,7 +15,7 @@ type BlogPost = {
 	relatedPosts: number[];
 };
 
-export async function GET(request: NextApiRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
 	const id = params.id;
 	// In a real application, this data would come from a database
 	const blogPosts: BlogPost[] = [
