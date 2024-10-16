@@ -19,7 +19,7 @@ const  RecentProjects = ({projects}: {projects: any[]}) => {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project, index) => (
-                        <Link key={index} href={`/projects/${project.id}`}>
+                        <Link key={index} href={`/projects/${project._id}`}>
                         <Card className="cursor-pointer">
                             <CardHeader>
                                 <CardTitle>{project.title}</CardTitle>
@@ -38,8 +38,8 @@ const  RecentProjects = ({projects}: {projects: any[]}) => {
                             </CardContent>
                             <CardFooter>
                                 <p className="italic">
-                                    {project.commment}<br/>
-                                    {project.commentBy}
+                                    {project.testimonial.quote}<br/>
+                                    {project.testimonial.author}-{project.testimonial.position}
                                 </p>
                             </CardFooter>
                         </Card>

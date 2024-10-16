@@ -10,7 +10,7 @@ import NewsletterSignup from "@/components/home/NewsletterSignup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 interface Service {
-	id: string;
+	_id: string;
 	title: string;
 	content: string;
 	icon: string;
@@ -18,7 +18,7 @@ interface Service {
     benefits: string[];
 };
 interface BlogPost {
-    id: string;
+    _id: string;
     title: string;
     summary: string;
     category: string;
@@ -28,7 +28,7 @@ interface BlogPost {
 }
 
 interface Project{
-    id: string;
+    _id: string;
     title: string; 
     client: string;
     image: string;

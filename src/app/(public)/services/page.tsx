@@ -4,7 +4,7 @@ import axios from 'axios'
 import CaseStudies from "@/components/Services/CaseStudies";
 import OurOffer from "@/components/Services/OurOffer";
 interface Service {
-	id: string;
+	_id: string;
 	title: string;
 	content: string;
 	icon: string;
@@ -13,6 +13,7 @@ interface Service {
 };
   
 interface CaseStudy {
+    _id: string;
     title: string;
     description: string;
     overview: string;

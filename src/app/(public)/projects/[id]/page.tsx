@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface Project {
-	id: string;
+	_id: string;
 	title: string;
 	client: string;
 	industry: string;

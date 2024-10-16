@@ -18,7 +18,7 @@ import { Search } from "lucide-react";
 import axios from "axios";
 
 interface BlogPost {
-    id: string;
+    _id: string;
     title: string;
     summary: string;
     category: string;
@@ -116,7 +116,7 @@ export default function BlogPage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {filteredPosts.map((post) => (
-                    <Card key={post.id}>
+                    <Card key={post._id}>
                         <CardHeader className="p-0">
                             <Image
                                 src={post.image}
@@ -138,7 +138,7 @@ export default function BlogPage() {
                                 By {post.author} | {post.date}
                             </div>
                             <Button asChild>
-                                <Link href={`/blog/${post.id}`}>Read More</Link>
+                                <Link href={`/blog/${post._id}`}>Read More</Link>
                             </Button>
                         </CardFooter>
                     </Card>

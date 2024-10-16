@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface Post {
-    id: string;
+    _id: string;
     title: string;
     author: string;
     readingTime: number;
@@ -46,19 +46,21 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             try {
                 const response = await axios.get<Post>(`/api/blog/${id}`);
                 setPost(response.data);
-                const relatedPostsData = await Promise.all(
-                    response.data.relatedPosts.slice(0, 2).map(relatedId =>
-                        axios.get<Post>(`/api/blog/${relatedId}`)
-                    )
-                );
-                setRelatedPosts(relatedPostsData.map(resp => resp.data));
+                if (response.data.relatedPosts.length > 1) {
+                    const response1 = await axios(`/api/blog/${response.data.relatedPosts[0]}`);
+                    const response2 = await axios(`/api/blog/${response.data.relatedPosts[1]}`);
+                    setRelatedPosts([response1.data, response2.data]);
+                }
+                else if(response.data.relatedPosts.length>0 && response.data.relatedPosts.length === 1){
+                    const response1 = await axios(`/api/blog/${response.data.relatedPosts[0]}`);
+                    setRelatedPosts([response1.data]);
+                }
                 setLoading(false);
             } catch (err) {
                 setError("Failed to fetch blog post. Please try again later.");
                 setLoading(false);
             }
         };
-
         fetchPost();
     }, [id]);
 
@@ -75,7 +77,9 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
     }
 
     if (!post) {
-        return <div className="container mx-auto px-4 py-8">Post not found</div>;
+        return (
+            <div className="container mx-auto px-4 py-8">Post not found</div>
+        );
     }
 
     return (
@@ -122,7 +126,9 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                             <div key={section.title}>
                                 <h2>{section.title}</h2>
                                 {section.content.map((paragraph, index) => (
-                                    <p key={index}>{index + 1})&nbsp;{paragraph}</p>
+                                    <p key={index}>
+                                        {index + 1})&nbsp;{paragraph}
+                                    </p>
                                 ))}
                             </div>
                         ))}
@@ -132,8 +138,8 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                 <section className="max-w-3xl mx-auto">
                     <h2 className="text-2xl font-bold mb-6">Related Posts</h2>
                     <div className="grid gap-6 md:grid-cols-2">
-                        {relatedPosts.map((relatedPost) => (
-                            <Card key={relatedPost.id}>
+                        {relatedPosts?.map((relatedPost) => (
+                            <Card key={relatedPost._id}>
                                 <CardHeader>
                                     <CardTitle>{relatedPost.title}</CardTitle>
                                     <CardDescription>
@@ -145,7 +151,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
                                     <p>{relatedPost.summary}</p>
                                 </CardContent>
                                 <CardFooter>
-                                    <Link href={`/blog/${relatedPost.id}`}>
+                                    <Link href={`/blog/${relatedPost._id}`}>
                                         <Button variant="ghost">
                                             Read More
                                         </Button>

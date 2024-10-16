@@ -7,7 +7,7 @@ const Team = ({ team }) => {
             <h2 className="text-3xl font-semibold mb-6">Our Researcher Team</h2>
             <div className="grid md:grid-cols-3 gap-8">
                 {team.map((member) => (
-                    <Card key={member.id}>
+                    <Card key={member._id}>
                         <CardContent className="p-6">
                             <div className="flex flex-col items-center">
                                 <Image

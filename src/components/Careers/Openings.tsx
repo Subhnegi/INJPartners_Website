@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 interface JobOpening {
+    _id: string;
     title: string;
     department: string;
     type: string;
@@ -30,7 +31,7 @@ const Openings: React.FC<OpeningsProps> = ({ jobOpenings }) => {
             <h2 className="text-3xl font-semibold mb-6">Current Openings</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {jobOpenings.map((job, index) => (
-                    <Card key={index}>
+                    <Card key={job._id}>
                         <CardHeader>
                             <div className="flex justify-between items-start">
                                 <div>

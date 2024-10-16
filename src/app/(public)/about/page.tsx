@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface TeamMember {
-    id: string;
+    _id: string;
     name: string;
     role: string;
     bio: string;

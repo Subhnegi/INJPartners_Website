@@ -24,7 +24,7 @@ const OurOffer = ({services}) => {
                 {services.map((offer) => {
                     const IconComponent = getIconComponent(offer.icon)
                     return (
-                        <Card key={offer.id}>
+                        <Card key={offer._id}>
                             <CardHeader>
                                 <IconComponent className="w-10 h-10 text-primary mb-4" />
                                 <CardTitle>{offer.title}</CardTitle>
@@ -48,7 +48,7 @@ const OurOffer = ({services}) => {
                                     ))}
                                 </ul>
                                 <Button asChild>
-                                    <Link href={`/services/${offer.id}`}>
+                                    <Link href={`/services/${offer._id}`}>
                                         Read More
                                     </Link>
                                 </Button>

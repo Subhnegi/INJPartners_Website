@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import {
     Card,
     CardContent,
@@ -46,7 +45,7 @@ const Blog = ({blogContent}) => {
                     <CarouselContent className="-ml-4">
                         {blogContent.map((post) => (
                             <CarouselItem
-                                key={post.id}
+                                key={post._id}
                                 className="pl-4 md:basis-1/2 lg:basis-1/3"
                             >
                                 <div className="h-full">
@@ -63,7 +62,7 @@ const Blog = ({blogContent}) => {
                                             </p>
                                         </CardContent>
                                         <CardFooter>
-                                            <Link href={`/blog/${post.id}`}>
+                                            <Link href={`/blog/${post._id}`}>
                                             <Button
                                                 variant="outline"
                                                 className="w-full"

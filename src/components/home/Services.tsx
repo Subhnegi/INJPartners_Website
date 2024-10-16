@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 
 interface Service {
-    id: string;
+    _id: string;
     title: string;
     content: string;
     icon: string;
@@ -29,7 +29,7 @@ const Services: React.FC<ServicesProps> = ({ services }) => {
         switch (iconName) {
             case "Users":
                 return Users;
-            case "BarChart":
+            case "BarChart2":
                 return BarChart2;
             case "TrendingUp":
                 return TrendingUp;
@@ -48,7 +48,7 @@ const Services: React.FC<ServicesProps> = ({ services }) => {
                     {services.map((service) => {
                         const IconComponent = getIconComponent(service.icon);
                         return (
-                            <Link key={service.id} href={`/services/${service.id}`}>
+                            <Link key={service._id} href={`/services/${service._id}`}>
                                 <Card className="flex flex-col items-center text-center">
                                     <CardHeader>
                                         <IconComponent className="w-12 h-12 text-primary mb-4" />

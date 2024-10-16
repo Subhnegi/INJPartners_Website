@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface FAQ {
-    id: string;
     question: string;
     answer: string;
 }
@@ -19,7 +18,7 @@ export default function ContactPage() {
     useEffect(() => {
         const fetchFAQs = async () => {
             try {
-                const response = await axios.get<FAQ[]>("/api/faqs");
+                const response = await axios("/api/faqs");
                 setFaqs(response.data);
                 setLoading(false);
             } catch (err) {

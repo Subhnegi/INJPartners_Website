@@ -18,7 +18,7 @@ import { Moon, Sun, Search, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 interface Service {
-	id: string;
+	_id: string;
 	title: string;
 	content: string;
 	icon: string;
@@ -76,9 +76,9 @@ export default function Navbar() {
                                         </li>
                                         {services.map((service)=>(
                                             <ListItem
-                                            href={`/services/${service.id}`}
+                                            href={`/services/${service._id}`}
                                             title={service.title}
-                                            key={service.id}
+                                            key={service._id}
                                         >
                                             {service.content}
                                         </ListItem>))}

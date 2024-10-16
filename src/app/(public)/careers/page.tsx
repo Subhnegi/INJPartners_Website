@@ -8,7 +8,7 @@ import Openings from "@/components/Careers/Openings";
 import Benefits from "@/components/Careers/Benefits";
 
 interface JobOpening {
-    id: string;
+    _id: string;
     title: string;
     department: string;
     location: string;
@@ -76,7 +76,7 @@ const CareersPage: React.FC = () => {
                         <Link href="/careers/apply">Apply Now</Link>
                     </Button>
                     <Button variant="outline" asChild>
-                        <Link href="mailto:careers@insightfulresearch.com">
+                        <Link href="/contact">
                             Contact Us
                         </Link>
                     </Button>

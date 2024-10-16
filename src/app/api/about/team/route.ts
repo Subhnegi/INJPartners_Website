@@ -1,40 +1,38 @@
+import { db } from "@/dbConfig/dbConfig";
+import { TeamMember } from "@/models/teammember.model";
 import { NextResponse } from "next/server";
-type Team = {
-	id: string;
-	name: string;
-	role: string;
-	bio: string;
-	imageUrl: string;
-};
-
-type TeamData = {
-	team: Team[];
-};
 
 export async function GET() {
-	const team= [
-		{
-			id: "1",
-			name: "Dr. Emily Watson",
-			role: "Lead Research Analyst",
-			bio: "Specializing in consumer behavior and market trends, Emily brings academic rigor to our research methodologies.",
-			imageUrl: "/placeholder.jpg",
-		},
-		{
-			id: "2",
-			name: "Alex Johnson",
-			role: "Data Scientist",
-			bio: "Alex's expertise in machine learning and predictive modeling helps uncover hidden patterns in complex datasets.",
-			imageUrl: "/placeholder.jpg",
-		},
-		{
-			id: "3",
-			name: "Sophia Martinez",
-			role: "Industry Specialist",
-			bio: "With a background in multiple industries, Sophia provides valuable context and insights to our research projects.",
-			imageUrl: "/placeholder.jpg",
-		},
-	];
-	return NextResponse.json(team);
+	await db();
+	try {
+		const team = await TeamMember.find({});
+		return NextResponse.json(team);
+	} catch (error) {
+		return NextResponse.json({ error: "Failed to fetch team members" }, { status: 500 });
+	}
 }
 
+// try {
+//     // Ensure you have a MongoDB connection established
+//     await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//     // Fetch team members from the database
+//     const team = await TeamMember.find({});
+
+//     return NextResponse.json(team);
+//   } catch (error) {
+//     console.error('Failed to fetch team members:', error);
+//     return NextResponse.json({ error: 'Failed to fetch team members' }, { status: 500 });
+//   }
+// }
+
+// export async function POST(request) {
+//   try {
+//     const data = await request.json();
+//     const newMember = new TeamMember(data);
+//     await newMember.save();
+//     return NextResponse.json(newMember, { status: 201 });
+//   } catch (error) {
+//     console.error('Failed to create team member:', error);
+//     return NextResponse.json({ error: 'Failed to create team member' }, { status: 500 });
+//   }

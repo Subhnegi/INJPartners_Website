@@ -39,6 +39,7 @@ interface StudyResult {
 }
 
 interface CaseStudy {
+    _id: string;
     title: string;
     description: string;
     overview: string;

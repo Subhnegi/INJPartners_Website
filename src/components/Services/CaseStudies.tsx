@@ -15,7 +15,7 @@ const CaseStudies = ({caseStudies}) => {
             <h2 className="text-3xl font-semibold mb-6">Case Studies</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {caseStudies.map((study) => (
-                    <Card key={study.id}>
+                    <Card key={study._id}>
                         <CardContent className="p-0">
                             <Image
                                 src={study.image}
@@ -32,7 +32,7 @@ const CaseStudies = ({caseStudies}) => {
                                     {study.description}
                                 </CardDescription>
                                 <Button asChild>
-                                    <Link href={`/case-studies/${study.id}`}>
+                                    <Link href={`/case-studies/${study._id}`}>
                                         Read More
                                     </Link>
                                 </Button>
