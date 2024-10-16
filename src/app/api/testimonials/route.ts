@@ -7,7 +7,7 @@ export async function GET() {
 		const testimonials = await Testimonial.find({});
 		return NextResponse.json(testimonials);
 	} catch (error) {
-		NextResponse.json({ error: "Failed to fetch testimonials" }, { status: 500 });
+		return NextResponse.json({ error: "Failed to fetch testimonials" }, { status: 500 });
 	}
 
 }

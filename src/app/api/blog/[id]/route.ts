@@ -13,7 +13,7 @@ export async function GET(
 		const post = await BlogPost.findById(id);
 		return NextResponse.json(post);
 	} catch (error) {
-		NextResponse.json({ error: "Failed to fetch blog post" }, { status: 500 });
+		return NextResponse.json({ error: "Failed to fetch blog post" }, { status: 500 });
 	}
 	
 }

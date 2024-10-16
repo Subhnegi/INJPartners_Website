@@ -10,6 +10,6 @@ export async function GET(request: NextRequest, {params}: {params: {id: string}}
 		const services = await Service.findById(id);
 		return NextResponse.json(services);
 	} catch (error) {
-		NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
+		return NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
 	}
 }

@@ -8,6 +8,6 @@ export async function GET() {
 		const services = await Service.find({});
 		return NextResponse.json(services);
 	} catch (error) {
-		NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
+		return NextResponse.json({ error: "Failed to fetch services" }, { status: 500 });
 	}
 }
