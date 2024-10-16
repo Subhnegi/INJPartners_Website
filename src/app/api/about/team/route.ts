@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     await db();
     try {
-        const { id, ...updateData } = await request.json();
-        const updatedMember = await TeamMember.findByIdAndUpdate(id, updateData, { new: true });
+        const { _id, ...updateData } = await request.json();
+        const updatedMember = await TeamMember.findByIdAndUpdate(_id, updateData, { new: true });
         if (!updatedMember) {
             return NextResponse.json(
                 { error: "Team member not found" },

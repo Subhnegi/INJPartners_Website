@@ -28,5 +28,5 @@ const faqCategorySchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-export const FAQCategory = (mongoose.models.faqCategorySchema) ||mongoose.model("FAQCategory", faqCategorySchema);
+export const FAQCategory = (mongoose.models.FAQCategory) ||mongoose.model("FAQCategory", faqCategorySchema);
 

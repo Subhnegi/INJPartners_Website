@@ -20,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 export type Section = {
     title: string;
@@ -48,20 +50,52 @@ export type BlogPost = {
 
 type BlogProps = {
     blogs: BlogPost[];
-    selectedBlogs: string[];
-    setSelectedBlogs: React.Dispatch<React.SetStateAction<string[]>>;
-    onUpdate: (blog: BlogPost) => void;
-    onDelete: () => void;
-    onAdd: (newBlog: Omit<BlogPost, "_id">) => void;
 };
+const onAdd = async (newItem: any) => {
+    try {
+        const response = await axios.post("/api/blog", newItem);
+        toast({
+            title: "Success",
+            description: "blog added successfully",
+        });
+    } catch (error) {
+        console.error("Error adding blog:", error);
+        toast({
+            title: "Error",
+            description: "Failed to add blog",
+            variant: "destructive",
+        });
+    }
+};
+
+const onUpdate = async (updatedItem: any) => {
+    try {
+        await axios.put(
+            "/api/blog",
+            updatedItem
+        );
+        toast({
+            title: "Success",
+            description: "blog updated successfully",
+        });
+    } catch (error) {
+        console.error("Error updating blog:", error);
+        toast(
+            {title: "Error",
+            description: "Failed to update blog",
+            variant: "destructive"
+        });
+    }
+};
+
 
 const Blog: React.FC<BlogProps> = ({
     blogs,
-    selectedBlogs,
-    setSelectedBlogs,
-    onUpdate,
-    onDelete,
-    onAdd,
+    // selectedBlogs,
+    // setSelectedBlogs,
+    // onUpdate,
+    // onDelete,
+    // onAdd,
 }) => {
     const [isAddBlogOpen, setIsAddBlogOpen] = React.useState(false);
     const [isUpdateBlogOpen, setIsUpdateBlogOpen] = React.useState(false);
@@ -82,7 +116,25 @@ const Blog: React.FC<BlogProps> = ({
         tags: [],
         relatedPosts: [],
     });
-
+    const [selectedBlogs, setSelectedBlogs] = React.useState([]);
+    const onDelete = async () => {
+        try {
+            if(selectedBlogs.length === 1){
+                await axios.delete(`/api/blog/${selectedBlogs[0]}`);
+            }
+            toast({
+                title: "Success",
+                description: "blog deleted successfully",
+            });
+        } catch (error) {
+            console.error("Error deleting blog:", error);
+            toast({
+                title: "Error",
+                description: "Failed to delete blog",
+                variant: "destructive",
+            });
+        }
+    };
     const handleAddBlog = () => {
         onAdd(newBlog);
         setIsAddBlogOpen(false);

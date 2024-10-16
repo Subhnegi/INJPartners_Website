@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     await db();
     try {
-        const { id, ...updateData } = await request.json();
-        const updatedPost = await BlogPost.findByIdAndUpdate(id, updateData, { new: true });
+        const { _id, ...updateData } = await request.json();
+        const updatedPost = await BlogPost.findByIdAndUpdate(_id, updateData, { new: true });
         if (!updatedPost) {
             return NextResponse.json(
                 { error: "Blog post not found" },
@@ -55,8 +55,8 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
     await db();
     try {
-        const { id } = await request.json();
-        const deletedPost = await BlogPost.findByIdAndDelete(id);
+        const { _id } = await request.json();
+        const deletedPost = await BlogPost.findByIdAndDelete(_id);
         if (!deletedPost) {
             return NextResponse.json(
                 { error: "Blog post not found" },

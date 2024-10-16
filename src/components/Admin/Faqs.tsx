@@ -26,6 +26,8 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 type Question = {
     q: string;
@@ -42,22 +44,48 @@ export type FAQCategory = {
 
 type FAQProps = {
     faqCategories: FAQCategory[];
-    selectedFAQCategories: string[];
-    setSelectedFAQCategories: React.Dispatch<React.SetStateAction<string[]>>;
-    onUpdate: (faqCategory: FAQCategory) => void;
-    onDelete: () => void;
-    onAdd: (
-        newFAQCategory: Omit<FAQCategory, "_id" | "createdAt" | "updatedAt">
-    ) => void;
+};
+const onAdd = async (newItem: any) => {
+    try {
+        const response = await axios.post("/api/faqs", newItem);
+        toast({
+            title: "Success",
+            description: "faq added successfully",
+        });
+    } catch (error) {
+        console.error("Error adding faq:", error);
+        toast({
+            title: "Error",
+            description: "Failed to add faq",
+            variant: "destructive",
+        });
+    }
 };
 
+const onUpdate = async (updatedItem: any) => {
+    try {
+        await axios.put(
+            "/api/faqs",
+            updatedItem
+        );
+
+        toast({
+            title: "Success",
+            description: " updated successfully",
+        });
+    } catch (error) {
+        console.error("Error updating :", error);
+        toast({
+            title: "Error",
+            description: "Failed to update ",
+            variant: "destructive",
+        });
+    }
+};
+
+
 const FAQ: React.FC<FAQProps> = ({
-    faqCategories,
-    selectedFAQCategories,
-    setSelectedFAQCategories,
-    onUpdate,
-    onDelete,
-    onAdd,
+    faqCategories
 }) => {
     const [isAddFAQCategoryOpen, setIsAddFAQCategoryOpen] =
         React.useState(false);
@@ -71,7 +99,23 @@ const FAQ: React.FC<FAQProps> = ({
         category: "",
         questions: [{ q: "", a: "" }],
     });
-
+    const [selectedFAQCategories, setSelectedFAQCategories] = React.useState<string[]>([]);
+    const onDelete = async () => {
+        try {
+            await axios.delete("/api/faqs", {data: {id:selectedFAQCategories[0]}});
+            toast({
+                title: "Success",
+                description: " deleted successfully",
+            });
+        } catch (error) {
+            console.error("Error deleting :", error);
+            toast({
+                title: "Error",
+                description: "Failed to delete ",
+                variant: "destructive",
+            });
+        }
+    };
     const handleAddFAQCategory = () => {
         onAdd(newFAQCategory);
         setIsAddFAQCategoryOpen(false);

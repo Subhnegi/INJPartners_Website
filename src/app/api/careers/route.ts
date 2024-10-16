@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     await db();
     try {
-        const { id, ...updateData } = await request.json();
-        const updatedJobOpening = await JobOpening.findByIdAndUpdate(id, updateData, { new: true });
+        const { _id, ...updateData } = await request.json();
+        const updatedJobOpening = await JobOpening.findByIdAndUpdate(_id, updateData, { new: true });
         if (!updatedJobOpening) {
             return NextResponse.json(
                 { error: "Job opening not found" },

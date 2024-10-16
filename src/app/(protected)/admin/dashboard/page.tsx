@@ -44,18 +44,8 @@ export default function AdminDashboard() {
     const [caseStudies, setCaseStudies] = useState([]);
     const [jobs, setJobs] = useState([]);
     const [members, setMembers] = useState([]);
-    const [faqs, setFaqs] = useState([]);
+    const [faqCategories, setFaqCategory] = useState([]);
     const [testimonials, setTestimonials] = useState([]);
-    const [selectedBlogs, setSelectedBlogs] = useState([]);
-    const [selectedCaseStudies, setSelectedCaseStudies] = useState(
-        []
-    );
-    const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
-    const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
-    const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
-    const [selectedTestimonials, setSelectedTestimonials] = useState<string[]>(
-        []
-    );
 
     useEffect(() => {
         fetchData();
@@ -85,7 +75,7 @@ export default function AdminDashboard() {
                     break;
                 case "faqs":
                     response = await axios.get("/api/faqs");
-                    setFaqs(response.data);
+                    setFaqCategory(response.data);
                     break;
                 case "testimonials":
                     response = await axios.get(
@@ -99,89 +89,6 @@ export default function AdminDashboard() {
             toast({
                 title: "Error",
                 description: `Failed to fetch ${activeSection}`,
-                variant: "destructive",
-            });
-        }
-    };
-
-    const handleAdd = async (newItem: any) => {
-        try {
-            const response = await axios.post(`/api/${activeSection}`, newItem);
-            fetchData();
-            toast({
-                title: "Success",
-                description: `${activeSection} added successfully`,
-            });
-        } catch (error) {
-            console.error(`Error adding ${activeSection}:`, error);
-            toast({
-                title: "Error",
-                description: `Failed to add ${activeSection}`,
-                variant: "destructive",
-            });
-        }
-    };
-
-    const handleUpdate = async (updatedItem: any) => {
-        try {
-            await axios.put(
-                `/api/${activeSection}/${updatedItem._id}`,
-                updatedItem
-            );
-            fetchData();
-            toast({
-                title: "Success",
-                description: `${activeSection} updated successfully`,
-            });
-        } catch (error) {
-            console.error(`Error updating ${activeSection}:`, error);
-            toast({
-                title: "Error",
-                description: `Failed to update ${activeSection}`,
-                variant: "destructive",
-            });
-        }
-    };
-
-    const handleDelete = async () => {
-        let selectedItems: string[] = [];
-        switch (activeSection) {
-            case "blogs":
-                selectedItems = selectedBlogs;
-                break;
-            case "case-studies":
-                selectedItems = selectedCaseStudies;
-                break;
-            case "jobs":
-                selectedItems = selectedJobs;
-                break;
-            case "members":
-                selectedItems = selectedMembers;
-                break;
-            case "faqs":
-                selectedItems = selectedFAQs;
-                break;
-            case "testimonials":
-                selectedItems = selectedTestimonials;
-                break;
-        }
-
-        try {
-            await Promise.all(
-                selectedItems.map((id) =>
-                    axios.delete(`/api/${activeSection}/${id}`)
-                )
-            );
-            fetchData();
-            toast({
-                title: "Success",
-                description: `${activeSection} deleted successfully`,
-            });
-        } catch (error) {
-            console.error(`Error deleting ${activeSection}:`, error);
-            toast({
-                title: "Error",
-                description: `Failed to delete ${activeSection}`,
                 variant: "destructive",
             });
         }
@@ -291,69 +198,31 @@ export default function AdminDashboard() {
                                 {activeSection === "blogs" && (
                                     <Blog
                                         blogs={blogs}
-                                        selectedBlogs={selectedBlogs}
-                                        setSelectedBlogs={setSelectedBlogs}
-                                        onUpdate={handleUpdate}
-                                        onDelete={handleDelete}
-                                        onAdd={handleAdd}
                                     />
                                 )}
                                 {activeSection === "case-studies" && (
                                     <CaseStudy
                                         caseStudies={caseStudies}
-                                        selectedCaseStudies={
-                                            selectedCaseStudies
-                                        }
-                                        setSelectedCaseStudies={
-                                            setSelectedCaseStudies
-                                        }
-                                        onUpdate={handleUpdate}
-                                        onDelete={handleDelete}
-                                        onAdd={handleAdd}
                                     />
                                 )}
                                 {activeSection === "jobs" && (
                                     <Job
                                         jobs={jobs}
-                                        selectedJobs={selectedJobs}
-                                        setSelectedJobs={setSelectedJobs}
-                                        onUpdate={handleUpdate}
-                                        onDelete={handleDelete}
-                                        onAdd={handleAdd}
                                     />
                                 )}
                                 {activeSection === "members" && (
                                     <Member
                                         members={members}
-                                        selectedMembers={selectedMembers}
-                                        setSelectedMembers={setSelectedMembers}
-                                        onUpdate={handleUpdate}
-                                        onDelete={handleDelete}
-                                        onAdd={handleAdd}
                                     />
                                 )}
                                 {activeSection === "faqs" && (
                                     <FAQ
-                                    faqCategories={faqs}
-                                    selectedFAQCategories={selectedFAQs}
-                                    setSelectedFAQCategories={setSelectedFAQs}
-                                    onUpdate={handleUpdate}
-                                    onDelete={handleDelete}
-                                    onAdd={handleAdd}
+                                    faqCategories={faqCategories}
                                     />
                                 )}
                                 {activeSection === "testimonials" && (
                                     <Testimonial
                                         testimonials={testimonials}
-                                        selectedTestimonials={
-                                            selectedTestimonials
-                                        }
-                                        setSelectedTestimonials={
-                                            setSelectedTestimonials
-                                        }
-                                        onUpdate={handleUpdate}
-                                        onDelete={handleDelete}
-                                        onAdd={handleAdd}
                                     />
                                 )}
                             </div>

@@ -17,3 +17,24 @@ export async function GET(
 	}
 	
 }
+export async function DELETE(request: NextRequest, { params }: { params: { id: string }}) {
+    await db();
+	console.log( params.id)
+    try {
+        const id = params.id;
+        const deletedPost = await BlogPost.findByIdAndDelete(id);
+        if (!deletedPost) {
+            return NextResponse.json(
+                { error: "Blog post not found" },
+                { status: 404 },
+            );
+        }
+        return NextResponse.json({ message: "Blog post deleted successfully" });
+    } catch (error) {
+        console.error("Failed to delete blog post:", error);
+        return NextResponse.json(
+            { error: "Failed to delete blog post" },
+            { status: 500 },
+        );
+    }
+}

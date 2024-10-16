@@ -21,6 +21,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 export type TeamMember = {
     _id: string;
@@ -34,22 +36,46 @@ export type TeamMember = {
 
 type MemberProps = {
     members: TeamMember[];
-    selectedMembers: string[];
-    setSelectedMembers: React.Dispatch<React.SetStateAction<string[]>>;
-    onUpdate: (member: TeamMember) => void;
-    onDelete: () => void;
-    onAdd: (
-        newMember: Omit<TeamMember, "_id" | "createdAt" | "updatedAt">
-    ) => void;
+};
+const onAdd = async (newItem: any) => {
+    try {
+        const response = await axios.post("/api/about/team", newItem);
+        toast({
+            title: "Success",
+            description: "member added successfully",
+        });
+    } catch (error) {
+        console.error("Error adding :member", error);
+        toast({
+            title: "Error",
+            description: "Failed to add member",
+            variant: "destructive",
+        });
+    }
+};
+
+const onUpdate = async (updatedItem: any) => {
+    try {
+        await axios.put(
+            "/api/about/team",
+            updatedItem
+        );
+        toast({
+            title: "Success",
+            description: "member updated successfully",
+        });
+    } catch (error) {
+        console.error("Error updating member:", error);
+        toast({
+            title: "Error",
+            description: "Failed to update member",
+            variant: "destructive",
+        });
+    }
 };
 
 const Member: React.FC<MemberProps> = ({
-    members,
-    selectedMembers,
-    setSelectedMembers,
-    onUpdate,
-    onDelete,
-    onAdd,
+    members
 }) => {
     const [isAddMemberOpen, setIsAddMemberOpen] = React.useState(false);
     const [isUpdateMemberOpen, setIsUpdateMemberOpen] = React.useState(false);
@@ -64,7 +90,28 @@ const Member: React.FC<MemberProps> = ({
         bio: "",
         imageUrl: "",
     });
-
+    const [selectedMembers, setSelectedMembers] = React.useState<string[]>([]);
+    const onDelete = async () => {
+        try {
+            await axios.delete(
+                "/api/about/team",
+                {
+                    data: { id: selectedMembers[0] },
+                }
+            )
+            toast({
+                title: "Success",
+                description: "member deleted successfully",
+            });
+        } catch (error) {
+            console.error("Error deleting member:", error);
+            toast({
+                title: "Error",
+                description: "Failed to delete member",
+                variant: "destructive",
+            });
+        }
+    };
     const handleAddMember = () => {
         onAdd(newMember);
         setIsAddMemberOpen(false);

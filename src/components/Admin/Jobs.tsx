@@ -27,6 +27,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 export type JobOpening = {
     _id: string;
@@ -43,22 +45,47 @@ export type JobOpening = {
 
 type JobProps = {
     jobs: JobOpening[];
-    selectedJobs: string[];
-    setSelectedJobs: React.Dispatch<React.SetStateAction<string[]>>;
-    onUpdate: (job: JobOpening) => void;
-    onDelete: () => void;
-    onAdd: (
-        newJob: Omit<JobOpening, "_id" | "createdAt" | "updatedAt">
-    ) => void;
+};
+const onAdd = async (newItem: any) => {
+    try {
+        const response = await axios.post("/api/careers", newItem);
+        toast({
+            title: "Success",
+            description: "job added successfully",
+        });
+    } catch (error) {
+        console.error("Error adding job:", error);
+        toast({
+            title: "Error",
+            description: "Failed to add job",
+            variant: "destructive",
+        });
+    }
 };
 
+const onUpdate = async (updatedItem: any) => {
+    try {
+        await axios.put(
+            "/api/careers",
+            updatedItem
+        );
+        toast({
+            title: "Success",
+            description: "job updated successfully",
+        });
+    } catch (error) {
+        console.error("Error updating job:", error);
+        toast({
+            title: "Error",
+            description: "Failed to update job",
+            variant: "destructive",
+        });
+    }
+};
+
+
 const Job: React.FC<JobProps> = ({
-    jobs,
-    selectedJobs,
-    setSelectedJobs,
-    onUpdate,
-    onDelete,
-    onAdd,
+    jobs
 }) => {
     const [isAddJobOpen, setIsAddJobOpen] = React.useState(false);
     const [isUpdateJobOpen, setIsUpdateJobOpen] = React.useState(false);
@@ -74,7 +101,23 @@ const Job: React.FC<JobProps> = ({
         responsibilities: [""],
         qualifications: [""],
     });
-
+    const [selectedJobs, setSelectedJobs] = React.useState<string[]>([]);
+    const onDelete = async () => {
+        try {
+            await axios.delete("/api/careers", {data: {id:selectedJobs[0]}})
+            toast({
+                title: "Success",
+                description: "job deleted successfully",
+            });
+        } catch (error) {
+            console.error("Error deleting job:", error);
+            toast({
+                title: "Error",
+                description: "Failed to delete job",
+                variant: "destructive",
+            });
+        }
+    };
     const handleAddJob = () => {
         onAdd(newJob);
         setIsAddJobOpen(false);

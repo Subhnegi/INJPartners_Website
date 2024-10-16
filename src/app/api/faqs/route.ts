@@ -2,7 +2,6 @@ import { db } from "@/dbConfig/dbConfig";
 import { FAQCategory } from "@/models/faqcategory.model";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
 export async function GET() {
 	await db();
     try {
@@ -33,8 +32,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     await db();
     try {
-        const { id, ...updateData } = await request.json();
-        const updatedFAQCategory = await FAQCategory.findByIdAndUpdate(id, updateData, { new: true });
+        const { _id, ...updateData } = await request.json();
+        const updatedFAQCategory = await FAQCategory.findByIdAndUpdate(_id, updateData, { new: true });
         if (!updatedFAQCategory) {
             return NextResponse.json(
                 { error: "FAQ category not found" },
@@ -55,6 +54,12 @@ export async function DELETE(request: NextRequest) {
     await db();
     try {
         const { id } = await request.json();
+        if (!id) {
+            return NextResponse.json(
+                { error: "FAQ category ID is required" },
+                { status: 400 },
+            );
+        }
         const deletedFAQCategory = await FAQCategory.findByIdAndDelete(id);
         if (!deletedFAQCategory) {
             return NextResponse.json(

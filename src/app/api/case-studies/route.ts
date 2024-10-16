@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     await db();
     try {
-        const { id, ...updateData } = await request.json();
-        const updatedCaseStudy = await CaseStudy.findByIdAndUpdate(id, updateData, { new: true });
+        const { _id, ...updateData } = await request.json();
+        const updatedCaseStudy = await CaseStudy.findByIdAndUpdate(_id, updateData, { new: true });
         if (!updatedCaseStudy) {
             return NextResponse.json(
                 { error: "Case study not found" },

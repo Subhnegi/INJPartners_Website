@@ -13,3 +13,24 @@ export async function GET(request: NextRequest, {params}: {params: {id: string}}
 		return NextResponse.json({ error: "Failed to fetch case studies" }, { status: 500 });
 	}
 }
+
+export async function DELETE(request: NextRequest, {params}: {params: {id: string}}) {
+    await db();
+	const id = params.id;
+    try {
+        const deletedCaseStudy = await CaseStudy.findByIdAndDelete(id);
+        if (!deletedCaseStudy) {
+            return NextResponse.json(
+                { error: "Case study not found" },
+                { status: 404 },
+            );
+        }
+        return NextResponse.json({ message: "Case study deleted successfully" });
+    } catch (error) {
+        console.error("Failed to delete case study:", error);
+        return NextResponse.json(
+            { error: "Failed to delete case study" },
+            { status: 500 },
+        );
+    }
+}

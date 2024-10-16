@@ -20,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 export type Result = {
     category: string;
@@ -44,22 +46,46 @@ export type CaseStudy = {
 
 type CaseStudyProps = {
     caseStudies: CaseStudy[];
-    selectedCaseStudies: string[];
-    setSelectedCaseStudies: React.Dispatch<React.SetStateAction<string[]>>;
-    onUpdate: (caseStudy: CaseStudy) => void;
-    onDelete: () => void;
-    onAdd: (
-        newCaseStudy: Omit<CaseStudy, "_id" | "createdAt" | "updatedAt">
-    ) => void;
+};
+const onAdd = async (newItem: any) => {
+    try {
+        const response = await axios.post("/api/case-studies", newItem);
+        toast({
+            title: "Success",
+            description: " added successfully",
+        });
+    } catch (error) {
+        console.error("Error adding case study:", error);
+        toast({
+            title: "Error",
+            description: "Failed to add case study ",
+            variant: "destructive",
+        });
+    }
+};
+
+const onUpdate = async (updatedItem: any) => {
+    try {
+        await axios.put(
+            "/api/case-studies",
+            updatedItem
+        );
+        toast({
+            title: "Success",
+            description: "case study updated successfully",
+        });
+    } catch (error) {
+        console.error("Error updating case study :", error);
+        toast({
+            title: "Error",
+            description: "Failed to update case study ",
+            variant: "destructive",
+        });
+    }
 };
 
 const CaseStudy: React.FC<CaseStudyProps> = ({
     caseStudies,
-    selectedCaseStudies,
-    setSelectedCaseStudies,
-    onUpdate,
-    onDelete,
-    onAdd,
 }) => {
     const [isAddCaseStudyOpen, setIsAddCaseStudyOpen] = React.useState(false);
     const [isUpdateCaseStudyOpen, setIsUpdateCaseStudyOpen] =
@@ -79,7 +105,32 @@ const CaseStudy: React.FC<CaseStudyProps> = ({
         results: [{ category: "", before: 0, after: 0 }],
         insights: [""],
     });
-
+    const [selectedCaseStudies, setSelectedCaseStudies] = React.useState(
+        []
+    );
+    const onDelete = async () => {
+        try {
+            // await Promise.all(
+            //     selectedItems.map((id) =>
+            //         axios.delete(`/api//${id}`)
+            //     )
+            // );
+            if(selectedCaseStudies.length === 1){
+                await axios.delete(`/api/case-studies/${selectedCaseStudies[0]}`);
+            }
+            toast({
+                title: "Success",
+                description: "case study deleted successfully",
+            });
+        } catch (error) {
+            console.error("Error deleting case study:", error);
+            toast({
+                title: "Error",
+                description: "Failed to delete case study",
+                variant: "destructive",
+            });
+        }
+    };
     const handleAddCaseStudy = () => {
         onAdd(newCaseStudy);
         setIsAddCaseStudyOpen(false);

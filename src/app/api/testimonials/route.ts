@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     await db();
     try {
-        const { id, ...updateData } = await request.json();
-        const updatedTestimonial = await Testimonial.findByIdAndUpdate(id, updateData, { new: true });
+        const { _id, ...updateData } = await request.json();
+        const updatedTestimonial = await Testimonial.findByIdAndUpdate(_id, updateData, { new: true });
         if (!updatedTestimonial) {
             return NextResponse.json(
                 { error: "Testimonial not found" },
