@@ -14,41 +14,61 @@ export async function GET() {
 		);
 	}
 }
-// import { NextResponse } from "next/server";
-// import mongoose from 'mongoose';
-// import BlogPost from '../path/to/your/BlogPost/model';
-
-// export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-//   const id = params.id;
-//   try {
-//     // Ensure you have a MongoDB connection established
-//     await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-//     // Fetch the specific blog post from the database
-//     const blogPost = await BlogPost.findOne({ id: id });
-
-//     if (!blogPost) {
-//       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 });
-//     }
-
-//     return NextResponse.json(blogPost);
-//   } catch (error) {
-//     console.error('Failed to fetch blog post:', error);
-//     return NextResponse.json({ error: 'Failed to fetch blog post' }, { status: 500 });
-//   }
-// }
 
 export async function POST(request: NextRequest) {
-	try {
-		const data = await request.json();
-		const newPost = new BlogPost(data);
-		await newPost.save();
-		return NextResponse.json(newPost, { status: 201 });
-	} catch (error) {
-		console.error("Failed to create blog post:", error);
-		return NextResponse.json(
-			{ error: "Failed to create blog post" },
-			{ status: 500 },
-		);
-	}
+    await db();
+    try {
+        const data = await request.json();
+        const newPost = new BlogPost(data);
+        await newPost.save();
+        return NextResponse.json(newPost, { status: 201 });
+    } catch (error) {
+        console.error("Failed to create blog post:", error);
+        return NextResponse.json(
+            { error: "Failed to create blog post" },
+            { status: 500 },
+        );
+    }
+}
+
+export async function PUT(request: NextRequest) {
+    await db();
+    try {
+        const { id, ...updateData } = await request.json();
+        const updatedPost = await BlogPost.findByIdAndUpdate(id, updateData, { new: true });
+        if (!updatedPost) {
+            return NextResponse.json(
+                { error: "Blog post not found" },
+                { status: 404 },
+            );
+        }
+        return NextResponse.json(updatedPost);
+    } catch (error) {
+        console.error("Failed to update blog post:", error);
+        return NextResponse.json(
+            { error: "Failed to update blog post" },
+            { status: 500 },
+        );
+    }
+}
+
+export async function DELETE(request: NextRequest) {
+    await db();
+    try {
+        const { id } = await request.json();
+        const deletedPost = await BlogPost.findByIdAndDelete(id);
+        if (!deletedPost) {
+            return NextResponse.json(
+                { error: "Blog post not found" },
+                { status: 404 },
+            );
+        }
+        return NextResponse.json({ message: "Blog post deleted successfully" });
+    } catch (error) {
+        console.error("Failed to delete blog post:", error);
+        return NextResponse.json(
+            { error: "Failed to delete blog post" },
+            { status: 500 },
+        );
+    }
 }

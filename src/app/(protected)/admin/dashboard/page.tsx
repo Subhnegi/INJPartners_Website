@@ -1,24 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import axios from "axios";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import {
     BarChart,
     Users,
@@ -33,237 +20,249 @@ import {
     Menu,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-
-// Mock data for demonstration purposes
-const pageData = [
-    { id: 1, title: "Home", status: "Published", lastUpdated: "2023-05-15" },
-    {
-        id: 2,
-        title: "About Us",
-        status: "Published",
-        lastUpdated: "2023-05-10",
-    },
-    { id: 3, title: "Services", status: "Draft", lastUpdated: "2023-05-20" },
-    { id: 4, title: "Blog", status: "Published", lastUpdated: "2023-05-18" },
-    { id: 5, title: "Contact", status: "Published", lastUpdated: "2023-05-12" },
-];
-
-const userData = [
-    {
-        id: 1,
-        name: "John Doe",
-        email: "john@example.com",
-        role: "Admin",
-        lastLogin: "2023-05-21",
-    },
-    {
-        id: 2,
-        name: "Jane Smith",
-        email: "jane@example.com",
-        role: "Editor",
-        lastLogin: "2023-05-20",
-    },
-    {
-        id: 3,
-        name: "Bob Johnson",
-        email: "bob@example.com",
-        role: "Viewer",
-        lastLogin: "2023-05-19",
-    },
-];
+import { toast } from "@/hooks/use-toast";
+import Blog from "@/components/Admin/Blogs";
+import CaseStudy from "@/components/Admin/CaseStudies";
+import Job from "@/components/Admin/Jobs";
+import Member from "@/components/Admin/Members";
+import FAQ from "@/components/Admin/Faqs";
+import Testimonial from "@/components/Admin/Testimonials";
 
 const sections = [
-    { id: "pages", name: "Pages", icon: FileText },
-    { id: "users", name: "Users", icon: Users },
-    { id: "testimonials", name: "Testimonials", icon: MessageSquare },
     { id: "blogs", name: "Blogs", icon: BookOpen },
-    { id: "caseStudies", name: "Case Studies", icon: BarChart },
+    { id: "case-studies", name: "Case Studies", icon: FileText },
     { id: "jobs", name: "Jobs", icon: Briefcase },
-    { id: "members", name: "Members", icon: User },
+    { id: "members", name: "Members", icon: Users },
     { id: "faqs", name: "FAQs", icon: HelpCircle },
+    { id: "testimonials", name: "Testimonials", icon: MessageSquare },
 ];
 
 export default function AdminDashboard() {
-    const [activeSection, setActiveSection] = useState("pages");
+    const [activeSection, setActiveSection] = useState("blogs");
     const [searchTerm, setSearchTerm] = useState("");
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [blogs, setBlogs] = useState([]);
+    const [caseStudies, setCaseStudies] = useState([]);
+    const [jobs, setJobs] = useState([]);
+    const [members, setMembers] = useState([]);
+    const [faqs, setFaqs] = useState([]);
+    const [testimonials, setTestimonials] = useState([]);
+    const [selectedBlogs, setSelectedBlogs] = useState([]);
+    const [selectedCaseStudies, setSelectedCaseStudies] = useState(
+        []
+    );
+    const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+    const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+    const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
+    const [selectedTestimonials, setSelectedTestimonials] = useState<string[]>(
+        []
+    );
 
-    const filteredData = activeSection === "pages" ? pageData : userData;
+    useEffect(() => {
+        fetchData();
+    }, [activeSection]);
 
-    const renderTable = () => {
-        switch (activeSection) {
-            case "pages":
-                return (
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Title</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Last Updated</TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredData.map((item: any) => (
-                                <TableRow key={item.id}>
-                                    <TableCell>{item.title}</TableCell>
-                                    <TableCell>{item.status}</TableCell>
-                                    <TableCell>{item.lastUpdated}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            asChild
-                                        >
-                                            <Link
-                                                href={`/admin/${activeSection}/${item.id}`}
-                                            >
-                                                Edit
-                                            </Link>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                );
-            case "users":
-                return (
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
-                                <TableHead>Role</TableHead>
-                                <TableHead>Last Login</TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredData.map((item: any) => (
-                                <TableRow key={item.id}>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.role}</TableCell>
-                                    <TableCell>{item.lastLogin}</TableCell>
-                                    <TableCell>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            asChild
-                                        >
-                                            <Link
-                                                href={`/admin/${activeSection}/${item.id}`}
-                                            >
-                                                Edit
-                                            </Link>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                );
-            default:
-                return (
-                    <div className="text-center py-4">
-                        <p>No data available for this section yet.</p>
-                        <Button className="mt-2">
-                            Add New {activeSection.slice(0, -1)}
-                        </Button>
-                    </div>
-                );
+    const fetchData = async () => {
+        try {
+            let response;
+            switch (activeSection) {
+                case "blogs":
+                    response = await axios("/api/blog");
+                    setBlogs(response.data);
+                    break;
+                case "case-studies":
+                    response = await axios.get(
+                        "/api/case-studies"
+                    );
+                    setCaseStudies(response.data);
+                    break;
+                case "jobs":
+                    response = await axios("/api/careers");
+                    setJobs(response.data);
+                    break;
+                case "members":
+                    response = await axios.get("/api/about/team");
+                    setMembers(response.data);
+                    break;
+                case "faqs":
+                    response = await axios.get("/api/faqs");
+                    setFaqs(response.data);
+                    break;
+                case "testimonials":
+                    response = await axios.get(
+                        "/api/testimonials"
+                    );
+                    setTestimonials(response.data);
+                    break;
+            }
+        } catch (error) {
+            console.error(`Error fetching ${activeSection}:`, error);
+            toast({
+                title: "Error",
+                description: `Failed to fetch ${activeSection}`,
+                variant: "destructive",
+            });
         }
     };
 
-    const SidebarContent = () => (
-        <div className="p-4">
-            <h2 className="text-2xl font-bold text-primary mb-4">
-                Admin Panel
-            </h2>
-            <nav>
-                {sections.map((section) => (
-                    <button
-                        type="button"
-                        key={section.id}
-                        onClick={() => {
-                            setActiveSection(section.id);
-                            setIsSidebarOpen(false);
-                        }}
-                        className={`flex items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left rounded-lg ${
-                            activeSection === section.id
-                                ? "bg-gray-200 text-gray-900"
-                                : "bg-transparent text-gray-600 hover:bg-gray-200 hover:text-gray-900"
-                        }`}
-                    >
-                        <section.icon className="w-5 h-5 mr-2" />
-                        {section.name}
-                    </button>
-                ))}
-            </nav>
-        </div>
-    );
+    const handleAdd = async (newItem: any) => {
+        try {
+            const response = await axios.post(`/api/${activeSection}`, newItem);
+            fetchData();
+            toast({
+                title: "Success",
+                description: `${activeSection} added successfully`,
+            });
+        } catch (error) {
+            console.error(`Error adding ${activeSection}:`, error);
+            toast({
+                title: "Error",
+                description: `Failed to add ${activeSection}`,
+                variant: "destructive",
+            });
+        }
+    };
+
+    const handleUpdate = async (updatedItem: any) => {
+        try {
+            await axios.put(
+                `/api/${activeSection}/${updatedItem._id}`,
+                updatedItem
+            );
+            fetchData();
+            toast({
+                title: "Success",
+                description: `${activeSection} updated successfully`,
+            });
+        } catch (error) {
+            console.error(`Error updating ${activeSection}:`, error);
+            toast({
+                title: "Error",
+                description: `Failed to update ${activeSection}`,
+                variant: "destructive",
+            });
+        }
+    };
+
+    const handleDelete = async () => {
+        let selectedItems: string[] = [];
+        switch (activeSection) {
+            case "blogs":
+                selectedItems = selectedBlogs;
+                break;
+            case "case-studies":
+                selectedItems = selectedCaseStudies;
+                break;
+            case "jobs":
+                selectedItems = selectedJobs;
+                break;
+            case "members":
+                selectedItems = selectedMembers;
+                break;
+            case "faqs":
+                selectedItems = selectedFAQs;
+                break;
+            case "testimonials":
+                selectedItems = selectedTestimonials;
+                break;
+        }
+
+        try {
+            await Promise.all(
+                selectedItems.map((id) =>
+                    axios.delete(`/api/${activeSection}/${id}`)
+                )
+            );
+            fetchData();
+            toast({
+                title: "Success",
+                description: `${activeSection} deleted successfully`,
+            });
+        } catch (error) {
+            console.error(`Error deleting ${activeSection}:`, error);
+            toast({
+                title: "Error",
+                description: `Failed to delete ${activeSection}`,
+                variant: "destructive",
+            });
+        }
+    };
 
     return (
         <div className="flex h-screen bg-gray-100">
-            {/* Sidebar for larger screens */}
-            <div className="hidden md:block w-64 bg-white shadow-md">
-                <SidebarContent />
-            </div>
-
-            {/* Sidebar for mobile screens */}
-            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                <SheetContent side="left" className="w-64 p-0">
-                    <SidebarContent />
-                </SheetContent>
-                <SheetTrigger asChild className="md:hidden">
-                            <Button variant="outline" size="icon">
-                                <Menu className="h-6 w-6" />
-                            </Button>
+            {/* Sidebar */}
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="shrink-0 md:hidden"
+                    >
+                        <Menu className="h-5 w-5" />
+                        <span className="sr-only">Toggle navigation menu</span>
+                    </Button>
                 </SheetTrigger>
+                <SheetContent side="left">
+                    <nav className="grid gap-2 py-6">
+                        {sections.map((section) => (
+                            <Link
+                                key={section.id}
+                                href="#"
+                                onClick={() => setActiveSection(section.id)}
+                                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 ${
+                                    activeSection === section.id
+                                        ? "bg-gray-100 text-gray-900"
+                                        : ""
+                                }`}
+                            >
+                                <section.icon className="h-4 w-4" />
+                                {section.name}
+                            </Link>
+                        ))}
+                    </nav>
+                </SheetContent>
             </Sheet>
-
+            <div className="hidden border-r bg-gray-100/40 md:block dark:bg-gray-800/40">
+                <div className="flex h-full max-h-screen flex-col gap-2">
+                    <div className="flex h-[60px] items-center border-b px-6">
+                        <Link
+                            className="flex items-center gap-2 font-semibold"
+                            href="#"
+                        >
+                            <BarChart className="h-6 w-6" />
+                            <span className="">Acme Inc</span>
+                        </Link>
+                    </div>
+                    <div className="flex-1 overflow-auto py-2">
+                        <nav className="grid items-start px-4 text-sm font-medium">
+                            {sections.map((section) => (
+                                <Link
+                                    key={section.id}
+                                    href="#"
+                                    onClick={() => setActiveSection(section.id)}
+                                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 ${
+                                        activeSection === section.id
+                                            ? "bg-gray-100 text-gray-900"
+                                            : ""
+                                    }`}
+                                >
+                                    <section.icon className="h-4 w-4" />
+                                    {section.name}
+                                </Link>
+                            ))}
+                        </nav>
+                    </div>
+                </div>
+            </div>
             {/* Main Content */}
             <div className="flex-1 overflow-auto">
                 <div className="container mx-auto px-4 py-8">
-                    <header className="mb-8 flex justify-between items-center">
-                        <div>
-                            <h1 className="text-4xl font-bold text-primary mb-2">
-                                {
-                                    sections.find((s) => s.id === activeSection)
-                                        ?.name
-                                }
-                            </h1>
-                            <p className="text-xl text-muted-foreground">
-                                Manage your {activeSection}
-                            </p>
-                        </div>
+                    <header className="flex items-center justify-between mb-8">
+                        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+                        <Button variant="outline" size="icon">
+                            <Settings className="h-4 w-4" />
+                            <span className="sr-only">Settings</span>
+                        </Button>
                     </header>
-
-                    <Card className="mb-8">
-                        <CardHeader>
-                            <CardTitle>Quick Stats</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">
-                                            Total {activeSection}
-                                        </CardTitle>
-                                        <FileText className="h-4 w-4 text-muted-foreground" />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-2xl font-bold">
-                                            {filteredData.length}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                {/* Add more stat cards as needed */}
-                            </div>
-                        </CardContent>
-                    </Card>
-
                     <Card>
                         <CardHeader>
                             <CardTitle>
@@ -287,12 +286,76 @@ export default function AdminDashboard() {
                                         className="pl-8"
                                     />
                                 </div>
-                                <Button>
-                                    Add New {activeSection.slice(0, -1)}
-                                </Button>
                             </div>
                             <div className="overflow-x-auto">
-                                {renderTable()}
+                                {activeSection === "blogs" && (
+                                    <Blog
+                                        blogs={blogs}
+                                        selectedBlogs={selectedBlogs}
+                                        setSelectedBlogs={setSelectedBlogs}
+                                        onUpdate={handleUpdate}
+                                        onDelete={handleDelete}
+                                        onAdd={handleAdd}
+                                    />
+                                )}
+                                {activeSection === "case-studies" && (
+                                    <CaseStudy
+                                        caseStudies={caseStudies}
+                                        selectedCaseStudies={
+                                            selectedCaseStudies
+                                        }
+                                        setSelectedCaseStudies={
+                                            setSelectedCaseStudies
+                                        }
+                                        onUpdate={handleUpdate}
+                                        onDelete={handleDelete}
+                                        onAdd={handleAdd}
+                                    />
+                                )}
+                                {activeSection === "jobs" && (
+                                    <Job
+                                        jobs={jobs}
+                                        selectedJobs={selectedJobs}
+                                        setSelectedJobs={setSelectedJobs}
+                                        onUpdate={handleUpdate}
+                                        onDelete={handleDelete}
+                                        onAdd={handleAdd}
+                                    />
+                                )}
+                                {activeSection === "members" && (
+                                    <Member
+                                        members={members}
+                                        selectedMembers={selectedMembers}
+                                        setSelectedMembers={setSelectedMembers}
+                                        onUpdate={handleUpdate}
+                                        onDelete={handleDelete}
+                                        onAdd={handleAdd}
+                                    />
+                                )}
+                                {activeSection === "faqs" && (
+                                    <FAQ
+                                    faqCategories={faqs}
+                                    selectedFAQCategories={selectedFAQs}
+                                    setSelectedFAQCategories={setSelectedFAQs}
+                                    onUpdate={handleUpdate}
+                                    onDelete={handleDelete}
+                                    onAdd={handleAdd}
+                                    />
+                                )}
+                                {activeSection === "testimonials" && (
+                                    <Testimonial
+                                        testimonials={testimonials}
+                                        selectedTestimonials={
+                                            selectedTestimonials
+                                        }
+                                        setSelectedTestimonials={
+                                            setSelectedTestimonials
+                                        }
+                                        onUpdate={handleUpdate}
+                                        onDelete={handleDelete}
+                                        onAdd={handleAdd}
+                                    />
+                                )}
                             </div>
                         </CardContent>
                     </Card>
