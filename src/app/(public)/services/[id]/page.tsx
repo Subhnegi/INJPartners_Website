@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 interface ServiceDetail {
     id: string;
@@ -77,69 +78,92 @@ export default function SingleServicePage({
                 Back to Services
             </Link>
 
-            <div className="grid gap-8 md:grid-cols-2">
-                <div>
-                    <h1 className="text-4xl font-bold text-primary mb-4">
-                        {service.title}
-                    </h1>
-                    <p className="text-xl text-muted-foreground mb-6">
-                        {service.description}
-                    </p>
-                    <Image
-                        src={service.image}
-                        alt={service.title}
-                        width={800}
-                        height={400}
-                        className="rounded-lg object-cover w-full"
-                    />
-                </div>
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+                <div className="grid gap-8 md:grid-cols-2">
+                    <div>
+                        <motion.h1
+                            className="text-4xl font-bold text-primary mb-4"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        >
+                            {service.title}
+                        </motion.h1>
+                        <motion.p
+                            className="text-xl text-muted-foreground mb-6"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+                        >
+                            {service.description}
+                        </motion.p>
 
-                <div className="space-y-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Key Benefits</CardTitle>
-                            <CardDescription>
-                                How this service can help your business
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <ul className="space-y-2">
-                                {service.benefits.map((benefit, index) => (
-                                    <li
-                                        key={index}
-                                        className="flex items-start"
-                                    >
-                                        <CheckCircle2 className="mr-2 h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                                        <span>{benefit}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-                    </Card>
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+                        >
+                            <Image
+                                src={service.image}
+                                alt={service.title}
+                                width={800}
+                                height={400}
+                                className="rounded-lg object-cover w-full"
+                            />
+                        </motion.div>
+                    </div>
 
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Our Methodologies</CardTitle>
-                            <CardDescription>
-                                The techniques we use to gather insights
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <ul className="list-disc list-inside space-y-2">
-                                {service.methodologies.map(
-                                    (methodology, index) => (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+                        className="space-y-6"
+                    >
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Key Benefits</CardTitle>
+                                <CardDescription>
+                                    How this service can help your business
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <ul className="space-y-2">
+                                    {service.benefits.map((benefit, index) => (
+                                        <li key={index} className="flex items-start">
+                                            <CheckCircle2 className="mr-2 h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                            <span>{benefit}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Our Methodologies</CardTitle>
+                                <CardDescription>
+                                    The techniques we use to gather insights
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <ul className="list-disc list-inside space-y-2">
+                                    {service.methodologies.map((methodology, index) => (
                                         <li key={index}>{methodology}</li>
-                                    )
-                                )}
-                            </ul>
-                        </CardContent>
-                    </Card>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
 
-                    <Button size="lg" className="w-full">
-                        Request a Consultation
-                    </Button>
+                        <Button size="lg" className="w-full">
+                            Request a Consultation
+                        </Button>
+                    </motion.div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 }
