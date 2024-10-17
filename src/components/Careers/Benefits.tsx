@@ -5,7 +5,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-
 import {
     Briefcase,
     GraduationCap,
@@ -14,6 +13,8 @@ import {
     BookOpen,
     Coffee,
 } from "lucide-react";
+import { motion } from "framer-motion"; // Import Framer Motion
+
 const Benefits = () => {
     return (
         <section>
@@ -21,99 +22,58 @@ const Benefits = () => {
                 Our Culture and Benefits
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Users className="mr-2" />
-                            Collaborative Environment
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>
-                            Work alongside passionate professionals in a
-                            supportive and innovative atmosphere. We believe in
-                            the power of teamwork and diverse perspectives.
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <GraduationCap className="mr-2" />
-                            Continuous Learning
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>
-                            Benefit from our comprehensive training programs,
-                            conference attendance opportunities, and mentorship
-                            initiatives. We invest in your growth and
-                            development.
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Zap className="mr-2" />
-                            Work-Life Balance
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>
-                            Enjoy flexible working hours, remote work options,
-                            and generous paid time off. We understand the
-                            importance of balancing professional and personal
-                            life.
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Briefcase className="mr-2" />
-                            Competitive Compensation
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>
-                            Receive a competitive salary, performance bonuses,
-                            and comprehensive health benefits. We value your
-                            contributions and reward excellence.
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <BookOpen className="mr-2" />
-                            Industry Leadership
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>
-                            Be at the forefront of market research innovation.
-                            Contribute to industry publications, speak at
-                            conferences, and shape the future of our field.
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Coffee className="mr-2" />
-                            Great Perks
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p>
-                            Enjoy our fully stocked kitchen, regular team
-                            events, wellness programs, and modern, comfortable
-                            office spaces designed for productivity and
-                            collaboration.
-                        </p>
-                    </CardContent>
-                </Card>
+                {/* Benefit cards with animations */}
+                {[
+                    {
+                        icon: <Users className="mr-2" />,
+                        title: "Collaborative Environment",
+                        description: "Work alongside passionate professionals in a supportive and innovative atmosphere. We believe in the power of teamwork and diverse perspectives."
+                    },
+                    {
+                        icon: <GraduationCap className="mr-2" />,
+                        title: "Continuous Learning",
+                        description: "Benefit from our comprehensive training programs, conference attendance opportunities, and mentorship initiatives. We invest in your growth and development."
+                    },
+                    {
+                        icon: <Zap className="mr-2" />,
+                        title: "Work-Life Balance",
+                        description: "Enjoy flexible working hours, remote work options, and generous paid time off. We understand the importance of balancing professional and personal life."
+                    },
+                    {
+                        icon: <Briefcase className="mr-2" />,
+                        title: "Competitive Compensation",
+                        description: "Receive a competitive salary, performance bonuses, and comprehensive health benefits. We value your contributions and reward excellence."
+                    },
+                    {
+                        icon: <BookOpen className="mr-2" />,
+                        title: "Industry Leadership",
+                        description: "Be at the forefront of market research innovation. Contribute to industry publications, speak at conferences, and shape the future of our field."
+                    },
+                    {
+                        icon: <Coffee className="mr-2" />,
+                        title: "Great Perks",
+                        description: "Enjoy our fully stocked kitchen, regular team events, wellness programs, and modern, comfortable office spaces designed for productivity and collaboration."
+                    }
+                ].map((benefit, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center">
+                                    {benefit.icon}
+                                    {benefit.title}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p>{benefit.description}</p>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+                ))}
             </div>
         </section>
     );

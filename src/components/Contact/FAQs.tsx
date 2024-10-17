@@ -1,6 +1,4 @@
-import React from "react";
-import { useState } from "react";
-
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,10 +8,11 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Search } from "lucide-react";
+import { motion } from "framer-motion"; // Import Framer Motion
 
-const FAQs = ({faqs}) => {
+const FAQs = ({ faqs }) => {
     // FAQ data
-const [faqSearch, setFaqSearch] = useState("");
+    const [faqSearch, setFaqSearch] = useState("");
     const filteredFaqs = faqs
         .map((category) => ({
             ...category,
@@ -24,6 +23,7 @@ const [faqSearch, setFaqSearch] = useState("");
             ),
         }))
         .filter((category) => category.questions.length > 0);
+
     return (
         <Card className="mt-12">
             <CardHeader>
@@ -47,13 +47,19 @@ const [faqSearch, setFaqSearch] = useState("");
                         </h3>
                         <Accordion type="single" collapsible className="w-full">
                             {category.questions.map((faq, faqIndex) => (
-                                <AccordionItem
+                                <motion.div
                                     key={faqIndex}
-                                    value={`item-${index}-${faqIndex}`}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.3, delay: faqIndex * 0.1 }}
                                 >
-                                    <AccordionTrigger>{faq.q}</AccordionTrigger>
-                                    <AccordionContent>{faq.a}</AccordionContent>
-                                </AccordionItem>
+                                    <AccordionItem
+                                        value={`item-${index}-${faqIndex}`}
+                                    >
+                                        <AccordionTrigger>{faq.q}</AccordionTrigger>
+                                        <AccordionContent>{faq.a}</AccordionContent>
+                                    </AccordionItem>
+                                </motion.div>
                             ))}
                         </Accordion>
                     </div>

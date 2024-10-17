@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 import axios from "axios";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 interface BlogPost {
     _id: string;
@@ -116,32 +117,39 @@ export default function BlogPage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {filteredPosts.map((post) => (
-                    <Card key={post._id}>
-                        <CardHeader className="p-0">
-                            <Image
-                                src={post.image}
-                                alt={post.title}
-                                width={300}
-                                height={200}
-                                className="w-full h-48 object-cover"
-                            />
-                        </CardHeader>
-                        <CardContent className="p-4">
-                            <Badge className="mb-2">{post.category}</Badge>
-                            <CardTitle className="text-xl mb-2">
-                                {post.title}
-                            </CardTitle>
-                            <CardDescription>{post.summary}</CardDescription>
-                        </CardContent>
-                        <CardFooter className="flex justify-between items-center p-4">
-                            <div className="text-sm text-muted-foreground">
-                                By {post.author} | {post.date}
-                            </div>
-                            <Button asChild>
-                                <Link href={`/blog/${post._id}`}>Read More</Link>
-                            </Button>
-                        </CardFooter>
-                    </Card>
+                    <motion.div
+                        key={post._id}
+                        initial={{ opacity: 0, y: 20 }} // Start slightly below and invisible
+                        animate={{ opacity: 1, y: 0 }} // Animate to visible and original position
+                        transition={{ duration: 0.3 }} // Duration of animation
+                    >
+                        <Card>
+                            <CardHeader className="p-0">
+                                <Image
+                                    src={post.image}
+                                    alt={post.title}
+                                    width={300}
+                                    height={200}
+                                    className="w-full h-48 object-cover"
+                                />
+                            </CardHeader>
+                            <CardContent className="p-4">
+                                <Badge className="mb-2">{post.category}</Badge>
+                                <CardTitle className="text-xl mb-2">
+                                    {post.title}
+                                </CardTitle>
+                                <CardDescription>{post.summary}</CardDescription>
+                            </CardContent>
+                            <CardFooter className="flex justify-between items-center p-4">
+                                <div className="text-sm text-muted-foreground">
+                                    By {post.author} | {post.date}
+                                </div>
+                                <Button asChild>
+                                    <Link href={`/blog/${post._id}`}>Read More</Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </motion.div>
                 ))}
             </div>
         </div>
