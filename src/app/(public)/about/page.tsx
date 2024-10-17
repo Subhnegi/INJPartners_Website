@@ -6,6 +6,7 @@ import Mission from "@/components/About/Mission";
 import Team from "@/components/About/Team";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 interface TeamMember {
     _id: string;
@@ -13,13 +14,14 @@ interface TeamMember {
     role: string;
     bio: string;
     imageUrl: string;
-  }
+}
+
 export default function About() {
     const [team, setTeam] = useState<TeamMember[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null); 
+
     useEffect(() => {
-        
         const fetchTeam = async () => {
             try {
                 const res = await axios("/api/about/team");
@@ -32,6 +34,7 @@ export default function About() {
         };
         fetchTeam();
     }, []);
+
     if (loading) {
         return <div className="container mx-auto px-4 py-8">Loading...</div>;
     }
@@ -43,8 +46,14 @@ export default function About() {
             </div>
         );
     }
+
     return (
-        <div className="container mx-auto px-4 py-8">
+        <motion.div
+            initial={{ opacity: 0 }} // Start invisible
+            animate={{ opacity: 1 }} // Animate to visible
+            transition={{ duration: 0.5 }} // Duration of the animation
+            className="container mx-auto px-4 py-8"
+        >
             <header className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-primary mb-2">
                     INJ PARTNERS
@@ -55,15 +64,49 @@ export default function About() {
             </header>
 
             {/* Story section */}
-            <Story/>
+            <motion.div
+                initial={{ y: 20, opacity: 0 }} // Start slightly below and invisible
+                animate={{ y: 0, opacity: 1 }} // Animate to original position and visible
+                transition={{ duration: 0.3 }} // Duration of animation
+            >
+                <Story />
+            </motion.div>
+
             {/* Mission and Vision section */}
-            <Mission/>
+            <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+            >
+                <Mission />
+            </motion.div>
+
             {/* Founders section */}
-            <Founder/>
+            <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+            >
+                <Founder />
+            </motion.div>
+
             {/* Our Team section */}
-            <Team team={team}/>
+            <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+            >
+                <Team team={team} />
+            </motion.div>
+
             {/* Values and Culture section */}
-            <Values/>
-        </div>
+            <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+            >
+                <Values />
+            </motion.div>
+        </motion.div>
     );
 }
