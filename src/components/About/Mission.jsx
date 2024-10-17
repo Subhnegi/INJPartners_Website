@@ -11,8 +11,7 @@ const Mission = () => {
                             <Target className="w-12 h-12 text-primary mb-4" />
                             <h3 className="text-2xl font-semibold mb-4">Our Mission</h3>
                             <p className="text-lg">
-                                To empower businesses of all sizes with actionable market insights, enabling them to make informed decisions,
-                                drive innovation, and achieve sustainable growth in an ever-evolving marketplace.
+                            Our purpose is to find the areas that haven't been exposed to the light of the day in order to keep it as effective as possible while assisting our clients in overcoming their professional challenges.
                             </p>
                         </div>
                     </CardContent>
@@ -23,8 +22,7 @@ const Mission = () => {
                             <Eye className="w-12 h-12 text-primary mb-4" />
                             <h3 className="text-2xl font-semibold mb-4">Our Vision</h3>
                             <p className="text-lg">
-                                To be the global leader in democratizing market research, creating a world where data-driven decision-making
-                                is accessible to every business, fostering innovation and economic growth across all industries and regions.
+                            With our expert team, customized solutions, innovative research methods, and exceptional customer service, we are committed to helping our clients succeed in the dynamic and ever-changing business landscape of Hong Kong and beyond.
                             </p>
                         </div>
                     </CardContent>

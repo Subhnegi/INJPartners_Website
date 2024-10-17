@@ -10,7 +10,7 @@ const KeyBenefits = () => {
         <section className="py-16 bg-muted">
             <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-12">
-                    Why Choose InsightPulse?
+                    Why Choose INJ PARTNERS?
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[

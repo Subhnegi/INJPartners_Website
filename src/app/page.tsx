@@ -9,6 +9,7 @@ import Blog from "@/components/home/Blog";
 import NewsletterSignup from "@/components/home/NewsletterSignup";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Pyramid from "@/components/Loaders/Pyramid";
 interface Service {
 	_id: string;
 	title: string;
@@ -78,7 +79,7 @@ export default function HomePage() {
     }, []);
     
 if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+    return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
 }
 
 if (error) {

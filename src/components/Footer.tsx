@@ -8,7 +8,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
                         <h2 className="text-lg font-semibold mb-4">
-                            InsightPulse
+                        <img src="/logo.webp" alt="logo" className="w-36"/>
                         </h2>
                         <p className="text-sm text-muted-foreground">
                             Empowering businesses with data-driven market
@@ -98,7 +98,7 @@ export default function Footer() {
                 <div className="mt-8 pt-8 border-t border-muted-foreground/10">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                         <p className="text-sm text-muted-foreground">
-                            © 2023 InsightPulse. All rights reserved.
+                            © 2023 INJ PARTNERS. All rights reserved.
                         </p>
                         <div className="flex space-x-4 mt-4 md:mt-0">
                             <Link

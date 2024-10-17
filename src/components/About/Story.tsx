@@ -6,27 +6,13 @@ const Story = () => {
             <h2 className="text-3xl font-semibold mb-6">Our Brand Story</h2>
             <div className="bg-muted rounded-lg p-6">
                 <p className="text-lg mb-4">
-                    Insightful Research Solutions was born from a simple yet
-                    powerful idea: that quality market research should be
-                    accessible to businesses of all sizes. Our founders, Sarah
-                    Chen and Michael Rodriguez, experienced firsthand the
-                    challenges of obtaining actionable market insights while
-                    working at startups and mid-sized companies.
+                Based in the vertical city of Hong Kong with offices in the United States and India, INJ is not only a name of an organization but a culture born out of a wide blend of cultures, a perfect mix of unique professionals.
                 </p>
                 <p className="text-lg mb-4">
-                    In 2015, they decided to bridge this gap by creating a
-                    company that combines cutting-edge technology with human
-                    expertise to deliver affordable, high-quality market
-                    research. Our mission is to democratize access to market
-                    intelligence, enabling businesses to make data-driven
-                    decisions that fuel growth and innovation.
+                We specialize in providing data-driven insights and analysis to businesses across a wide range of industries. With our expert team of researchers and analysts, we offer unparalleled expertise and in-depth knowledge of the local market. 
                 </p>
                 <p className="text-lg">
-                    Today, we're proud to serve clients across various
-                    industries, helping them navigate market complexities and
-                    uncover opportunities for success. Our journey is a
-                    testament to the power of insight and the impact it can have
-                    on businesses worldwide.
+                With our expert team, customized solutions, innovative research methods, and exceptional customer service, we are committed to helping our clients succeed in the dynamic and ever-changing business landscape of Hong Kong and beyond.
                 </p>
             </div>
         </section>

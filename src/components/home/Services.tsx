@@ -12,7 +12,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-
+import {Tilt} from "react-tilt";
 interface Service {
     _id: string;
     title: string;
@@ -49,15 +49,17 @@ const Services: React.FC<ServicesProps> = ({ services }) => {
                         const IconComponent = getIconComponent(service.icon);
                         return (
                             <Link key={service._id} href={`/services/${service._id}`}>
+                                <Tilt>
                                 <Card className="flex flex-col items-center text-center">
-                                    <CardHeader>
-                                        <IconComponent className="w-12 h-12 text-primary mb-4" />
+                                    <CardHeader className="flex flex-col items-center">
+                                    <IconComponent className="w-12 h-12 text-primary mb-4" />
                                         <CardTitle>{service.title}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <p>{service.content}</p>
                                     </CardContent>
                                 </Card>
+                                </Tilt>
                             </Link>
                         );
                     })}

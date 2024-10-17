@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Phone, Mail } from "lucide-react"
+import { Phone, Mail } from "lucide-react";
 const Form = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -23,6 +22,7 @@ const Form = () => {
         }
     };
     return (
+        <>
             <Card>
                 <CardHeader>
                     <CardTitle>Send us a message</CardTitle>
@@ -92,29 +92,49 @@ const Form = () => {
                     </form>
                 </CardContent>
                 <Card>
-                    <CardHeader>
-                        <CardTitle>Contact Information</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-4">
-                            <div className="flex items-center space-x-2">
-                                <Phone className="w-5 h-5" />
-                                <span>+1 (555) 123-4567</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <Mail className="w-5 h-5" />
-                                <a
-                                    href="mailto:info@insightfulresearch.com"
-                                    className="text-primary hover:underline"
-                                >
-                                    info@insightfulresearch.com
-                                </a>
-                            </div>
+                <CardHeader>
+                    <CardTitle>Contact Information</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className=" space-y-4">
+                        <div className="flex space-x-2">
+                            <Phone className="w-5 h-5" />
+                            <span>India</span>
+                            <span>+91-999-999-9999</span>
                         </div>
-                    </CardContent>
-                </Card>
+                        <div className="flex space-x-2">
+                            <Phone className="w-5 h-5" />
+                            <span>USA</span>
+                            <span>+1-469-756-5056</span>
+                        </div>
+                        <div className="flex space-x-2">
+                            <Phone className="w-5 h-5" />
+                            <span>Hong Kong</span>
+                            <span>+852-906-67994</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Mail className="w-5 h-5" />
+                            <a
+                                href="mailto:sales@injpartners.com"
+                                className="text-primary hover:underline"
+                            >
+                                sales@injpartners.com
+                            </a>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Mail className="w-5 h-5" />
+                            <a
+                                href="mailto:prakhar.mishra@injpartners.com"
+                                className="text-primary hover:underline"
+                            >
+                                prakhar.mishra@injpartners.com
+                            </a>
+                        </div>
+                    </div>
+                </CardContent>
             </Card>
-        
+            </Card>
+        </>
     );
 };
 

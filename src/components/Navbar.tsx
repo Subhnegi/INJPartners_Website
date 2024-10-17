@@ -46,7 +46,7 @@ export default function Navbar() {
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-14 items-center">
                 <Link href="/" className="flex items-center space-x-2">
-                    <span className="font-bold text-xl">InsightPulse</span>
+                    <span className="font-bold text-xl"><img src="/logo.webp" alt="logo" className="w-36"/></span>
                 </Link>
                 <div className="flex-1" />
                 <div className="hidden md:flex">
@@ -142,7 +142,7 @@ export default function Navbar() {
                         aria-label="Toggle theme"
                         className="mr-6"
                         onClick={() =>
-                            setTheme(theme === "dark" ? "light" : "dark")
+                            setTheme(theme === "light" ? "dark" : "light")
                         }
                     >
                         <Sun className="h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
