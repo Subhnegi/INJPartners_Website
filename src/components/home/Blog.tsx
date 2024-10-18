@@ -49,9 +49,9 @@ const Blog = ({blogContent}) => {
                                 className="pl-4 md:basis-1/2 lg:basis-1/3"
                             >
                                 <div className="h-full">
-                                    <Card className="h-full flex flex-col">
+                                    <Card className="h-full flex flex-col border-[#4251f88b]">
                                         <CardHeader>
-                                            <CardTitle>{post.title}</CardTitle>
+                                            <CardTitle className="text-[#4251f88b]">{post.title}</CardTitle>
                                             <CardDescription>
                                                 {post.date}
                                             </CardDescription>
@@ -65,7 +65,7 @@ const Blog = ({blogContent}) => {
                                             <Link href={`/blog/${post._id}`}>
                                             <Button
                                                 variant="outline"
-                                                className="w-full"
+                                                className="w-full button-primary"
                                                 >
                                                 Read More
                                             </Button>
@@ -77,8 +77,8 @@ const Blog = ({blogContent}) => {
                         ))}
                     </CarouselContent>
                     </div>
-                    <CarouselPrevious />
-                    <CarouselNext />
+                    <CarouselPrevious className="border-[#4251f88b]"/>
+                    <CarouselNext className="border-[#4251f88b]"/>
                 </Carousel>
                 <div className="py-2 text-center space-x-1">
                     {[...Array(blogContent.length)].map((_, i) => (

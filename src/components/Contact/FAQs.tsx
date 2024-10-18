@@ -25,7 +25,7 @@ const FAQs = ({ faqs }) => {
         .filter((category) => category.questions.length > 0);
 
     return (
-        <Card className="mt-12">
+        <Card className="mt-12 border-[#4251f88b]">
             <CardHeader>
                 <CardTitle>Frequently Asked Questions</CardTitle>
             </CardHeader>

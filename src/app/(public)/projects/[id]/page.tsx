@@ -13,6 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Pyramid from "@/components/Loaders/Pyramid";
+import { Tilt } from "react-tilt";
 
 interface Project {
 	_id: string;
@@ -62,7 +64,7 @@ export default function ProjectPage({
     }, [id]);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
 
     if (error) {
@@ -83,7 +85,7 @@ export default function ProjectPage({
         <div className="container mx-auto px-4 py-8">
             <div className="mb-6">
                 <Badge variant="secondary" className="mb-2">
-                    Case Study
+                    Project
                 </Badge>
                 <h1 className="text-4xl font-bold mb-2">{project.title}</h1>
                 <div className="flex items-center text-muted-foreground">
@@ -94,9 +96,10 @@ export default function ProjectPage({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <Card>
+<Tilt>
+                <Card className="border-[#4251f88b]">
                     <CardHeader className="flex flex-row items-center space-x-2">
-                        <Calendar className="w-4 h-4" />
+                        <Calendar className="w-4 h-4 text-[#4251f88b]" />
                         <CardTitle>Project Duration</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -106,9 +109,11 @@ export default function ProjectPage({
                         </p>
                     </CardContent>
                 </Card>
-                <Card>
+                </Tilt>
+                <Tilt>
+                <Card className="border-[#4251f88b]">
                     <CardHeader className="flex flex-row items-center space-x-2">
-                        <BarChart className="w-4 h-4" />
+                        <BarChart className="w-4 h-4 text-[#4251f88b]" />
                         <CardTitle>Key Metric</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -118,9 +123,11 @@ export default function ProjectPage({
                         </p>
                     </CardContent>
                 </Card>
-                <Card>
+                </Tilt>
+                <Tilt>
+                <Card className="border-[#4251f88b]">
                     <CardHeader className="flex flex-row items-center space-x-2">
-                        <Users className="w-4 h-4" />
+                        <Users className="w-4 h-4 text-[#4251f88b]" />
                         <CardTitle>Team Size</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -130,6 +137,7 @@ export default function ProjectPage({
                         </p>
                     </CardContent>
                 </Card>
+                </Tilt>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -146,8 +154,8 @@ export default function ProjectPage({
                         className="rounded-lg"
                     />
                 </div>
-                <div>
-                    <Card>
+                <div className="py-32">
+                    <Card className=" border-[#4251f88b]">
                         <CardHeader>
                             <CardTitle>Challenges</CardTitle>
                             <CardDescription>
@@ -162,7 +170,7 @@ export default function ProjectPage({
                             </ul>
                         </CardContent>
                     </Card>
-                    <Card className="mt-6">
+                    <Card className="mt-6 border-[#4251f88b]">
                         <CardHeader>
                             <CardTitle>Our Approach</CardTitle>
                             <CardDescription>
@@ -180,10 +188,10 @@ export default function ProjectPage({
                 </div>
             </div>
 
-            <Card className="mb-8">
+            <Card className="mb-8 border-[#4251f88b]">
                 <CardHeader>
                     <CardTitle className="flex items-center">
-                        <Target className="w-5 h-5 mr-2" />
+                        <Target className="w-5 h-5 mr-2 text-[#4251f88b]" />
                         Results Achieved
                     </CardTitle>
                 </CardHeader>
@@ -196,7 +204,7 @@ export default function ProjectPage({
                 </CardContent>
             </Card>
 
-            <Card className="bg-primary text-primary-foreground">
+            <Card className="bg-primary text-primary-foreground border-[#4251f88b]">
                 <CardHeader>
                     <CardTitle>Client Testimonial</CardTitle>
                 </CardHeader>

@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 const KeyBenefits = () => {
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16 bg-muted bg-gradient-to-r from-purple-500 to-cyan-500">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Why Choose InsightPulse?
+        <h2 className="text-3xl font-bold text-center mb-12  bg-gradient-to-r from-purple-500 to-cyan-500">
+          Why Choose INJ Partners?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[

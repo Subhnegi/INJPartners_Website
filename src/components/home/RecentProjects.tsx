@@ -10,17 +10,18 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Tilt } from "react-tilt";
 
 const RecentProjects = ({ projects }: { projects: any[] }) => {
 	return (
-		<section className="py-16 bg-muted">
+		<section className="py-16 bg-muted bg-gradient-to-r from-purple-500 to-cyan-500">
 			<div className="container mx-auto">
 				<h2 className="text-3xl font-bold text-center mb-12">
 					Recent Projects
 				</h2>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					{projects.map((project, index) => (
-						<Link key={index} href={`/projects/${project._id}`}>
+						<Link key={project._id} href={`/projects/${project._id}`}>
 							<motion.div
 								initial={{ opacity: 0, y: 20 }} // Initial state: invisible and slightly below
 								whileInView={{ opacity: 1, y: 0 }} // Animate when in view
@@ -31,6 +32,7 @@ const RecentProjects = ({ projects }: { projects: any[] }) => {
 									delay: index * 0.2,
 								}} // Add delay for a staggered effect
 							>
+								<Tilt>
 								<Card className="cursor-pointer">
 									<CardHeader>
 										<CardTitle>{project.title}</CardTitle>
@@ -54,6 +56,7 @@ const RecentProjects = ({ projects }: { projects: any[] }) => {
 										</p>
 									</CardFooter>
 								</Card>
+								</Tilt>
 							</motion.div>
 						</Link>
 					))}

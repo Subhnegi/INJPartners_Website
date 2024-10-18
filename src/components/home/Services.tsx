@@ -48,15 +48,17 @@ const Services: React.FC<ServicesProps> = ({ services }) => {
 										delay: index * 0.2,
 									}} // Add delay for a staggered effect
 								>
-									<Card className="flex flex-col items-center text-center">
+									<Tilt>
+									<Card className="flex flex-col items-center text-center border-[#4251f88b]">
 										<CardHeader>
-											<IconComponent className="w-12 h-12 text-primary mb-4 self-center" />
+											<IconComponent className="w-12 h-12 mb-4 self-center text-[#4251f88b]" />
 											<CardTitle>{service.title}</CardTitle>
 										</CardHeader>
 										<CardContent>
 											<p>{service.content}</p>
 										</CardContent>
 									</Card>
+									</Tilt>
 								</motion.div>
 							</Link>
 						);

@@ -37,7 +37,7 @@ const Form = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
             >
-                <Card>
+                <Card className="border-[#4251f88b]">
                     <CardHeader>
                         <CardTitle>Send us a message</CardTitle>
                     </CardHeader>
@@ -102,7 +102,7 @@ const Form = () => {
                                     I'm not a robot
                                 </label>
                             </div>
-                            <Button type="submit">Send Message</Button>
+                            <Button type="submit" className="button-primary">Send Message</Button>
                         </form>
                     </CardContent>
                 </Card>
@@ -114,7 +114,7 @@ const Form = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
             >
-                <Card>
+                <Card className="border-[#4251f88b]">
                 <CardHeader>
                     <CardTitle>Contact Information</CardTitle>
                 </CardHeader>
@@ -160,7 +160,7 @@ const Form = () => {
 
             {/* Contact Info Card */}
             <motion.div>
-            <Card>
+            <Card className="border-[#4251f88b]">
                     <CardHeader>
                         <CardTitle>Contact Information</CardTitle>
                     </CardHeader>

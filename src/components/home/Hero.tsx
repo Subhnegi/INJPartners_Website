@@ -9,33 +9,13 @@ import {
 } from "@/utils/motion";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-// const Hero = () => {
-//     return (
-//         <div>
-//             <section className="bg-gradient-to-r from-primary to-primary-foreground text-white py-20">
-//                 <div className="container mx-auto text-center">
-//                     <h1 className="text-4xl font-bold mb-4">
-//                         Unlock Market Insights with INJ PARTNERS
-//                     </h1>
-//                     <p className="text-xl mb-8">
-//                         Data-driven decisions for your business growth
-//                     </p>
-//                     <Button asChild size="lg">
-//                         <Link href="/services">Explore Our Services</Link>
-//                     </Button>
-//                 </div>
-//             </section>
-//         </div>
-//     );
-// };
 
-// export default Hero;
 const HeroContent = () => {
     return (
         <motion.div
             initial="hidden"
             animate="visible"
-            className="flex flex-row items-center justify-center px-20 py-5 w-full z-[20]"
+            className="flex flex-row items-center justify-center px-20 py-5 w-full z-[20] bg-gradient-to-tl from-[#183EC2]  via-[transparent] bg-76%"
         >
             <div className="h-full w-full flex flex-col gap-5 justify-center m-auto text-start">
                 <motion.div
@@ -80,14 +60,16 @@ const HeroContent = () => {
 
             <motion.div
                 variants={slideInFromRight(0.8)}
-                className="w-full h-full flex justify-center items-center"
+                className="w-[90%] h-[90%] flex justify-center items-center relative rounded-full border-2 border-emerald-300/5 shadow-[0_0_80px_emerald-300] shadow-emerald-300/5"
             >
                 <Image
                     src="/graphs.gif"
                     alt="work icons"
                     height={650}
                     width={650}
+                    className="rounded-full"
                 />
+                <div className="absolute inset-0  border-2  rounded-full "/>
             </motion.div>
         </motion.div>
     );

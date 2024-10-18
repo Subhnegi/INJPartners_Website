@@ -39,9 +39,9 @@ const OurExpertise = () => {
 							}} // Add delay based on index for staggered effect
 							
 						>
-							<Card className="flex flex-col items-center text-center">
+							<Card className="flex flex-col items-center text-center border-[#4251f88b]">
 								<CardHeader>
-									<industry.icon className="w-12 h-12 text-primary mb-4 self-center" />
+									<industry.icon className="w-12 h-12 text-[#4251f88b] mb-4 self-center hover:scale-150" />
 									<CardTitle>{industry.title}</CardTitle>
 								</CardHeader>
 							</Card>

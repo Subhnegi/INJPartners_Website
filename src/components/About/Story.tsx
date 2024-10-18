@@ -2,9 +2,9 @@ import React from "react";
 
 const Story = () => {
     return (
-        <section className="mb-16">
+        <section className="mb-16 ">
             <h2 className="text-3xl font-semibold mb-6">Our Brand Story</h2>
-            <div className="bg-muted rounded-lg p-6">
+            <div className="bg-muted rounded-lg p-6 border-[#4251f88b] border-2">
                 <p className="text-lg mb-4">
                 Based in the vertical city of Hong Kong with offices in the United States and India, INJ is not only a name of an organization but a culture born out of a wide blend of cultures, a perfect mix of unique professionals.
                 </p>

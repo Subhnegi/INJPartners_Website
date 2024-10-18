@@ -17,6 +17,8 @@ import { Badge } from "@/components/ui/badge";
 import { Search } from "lucide-react";
 import axios from "axios";
 import { motion } from "framer-motion"; // Import Framer Motion
+import Pyramid from "@/components/Loaders/Pyramid";
+import { Tilt } from "react-tilt";
 
 interface BlogPost {
     _id: string;
@@ -50,7 +52,7 @@ export default function BlogPage() {
     }, []);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
 
     if (error) {
@@ -80,7 +82,7 @@ export default function BlogPage() {
         <div className="container mx-auto px-4 py-8">
             <header className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-primary mb-2">
-                    INJ PARTNERS Blog
+                    INJ PARTNERS <span className=" text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Blogs</span>
                 </h1>
                 <p className="text-xl text-muted-foreground">
                     Stay Updated with the Latest Market Research Insights
@@ -123,7 +125,8 @@ export default function BlogPage() {
                         animate={{ opacity: 1, y: 0 }} // Animate to visible and original position
                         transition={{ duration: 0.3 }} // Duration of animation
                     >
-                        <Card>
+                        <Tilt>
+                        <Card className="border-[#4251f88b]">
                             <CardHeader className="p-0">
                                 <Image
                                     src={post.image}
@@ -134,7 +137,7 @@ export default function BlogPage() {
                                 />
                             </CardHeader>
                             <CardContent className="p-4">
-                                <Badge className="mb-2">{post.category}</Badge>
+                                <Badge className="mb-2 ">{post.category}</Badge>
                                 <CardTitle className="text-xl mb-2">
                                     {post.title}
                                 </CardTitle>
@@ -144,11 +147,12 @@ export default function BlogPage() {
                                 <div className="text-sm text-muted-foreground">
                                     By {post.author} | {post.date}
                                 </div>
-                                <Button asChild>
+                                <Button asChild className="button-primary">
                                     <Link href={`/blog/${post._id}`}>Read More</Link>
                                 </Button>
                             </CardFooter>
                         </Card>
+                        </Tilt>
                     </motion.div>
                 ))}
             </div>

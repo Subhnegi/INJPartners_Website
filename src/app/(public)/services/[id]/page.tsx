@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion"; // Import Framer Motion
+import Pyramid from "@/components/Loaders/Pyramid";
 
 interface ServiceDetail {
     id: string;
@@ -51,7 +52,7 @@ export default function SingleServicePage({
     }, [id]);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
 
     if (error) {
@@ -121,9 +122,9 @@ export default function SingleServicePage({
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
-                        className="space-y-6"
+                        className="space-y-6 py-20"
                     >
-                        <Card>
+                        <Card className="border-[#4251f88b]">
                             <CardHeader>
                                 <CardTitle>Key Benefits</CardTitle>
                                 <CardDescription>
@@ -142,7 +143,7 @@ export default function SingleServicePage({
                             </CardContent>
                         </Card>
 
-                        <Card>
+                        <Card className="border-[#4251f88b]">
                             <CardHeader>
                                 <CardTitle>Our Methodologies</CardTitle>
                                 <CardDescription>
@@ -158,7 +159,7 @@ export default function SingleServicePage({
                             </CardContent>
                         </Card>
 
-                        <Button size="lg" className="w-full">
+                        <Button size="lg" className="w-full button-primary text-primary">
                             Request a Consultation
                         </Button>
                     </motion.div>

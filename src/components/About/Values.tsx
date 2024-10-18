@@ -8,7 +8,7 @@ const Values = () => {
                     Our Values and Culture
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <Card>
+                    <Card className='border-[#4251f88b]'>
                         <CardContent className="p-6 flex flex-col items-center text-center">
                             <Shield className="w-12 h-12 text-primary mb-4" />
                             <h3 className="text-xl font-semibold mb-2">
@@ -20,7 +20,7 @@ const Values = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card>
+                    <Card className='border-[#4251f88b]'>
                         <CardContent className="p-6 flex flex-col items-center text-center">
                             <Users className="w-12 h-12 text-primary mb-4" />
                             <h3 className="text-xl font-semibold mb-2">
@@ -32,7 +32,7 @@ const Values = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card>
+                    <Card className='border-[#4251f88b]'>
                         <CardContent className="p-6 flex flex-col items-center text-center">
                             <Lightbulb className="w-12 h-12 text-primary mb-4" />
                             <h3 className="text-xl font-semibold mb-2">
@@ -44,7 +44,7 @@ const Values = () => {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card>
+                    <Card className='border-[#4251f88b]'>
                         <CardContent className="p-6 flex flex-col items-center text-center">
                             <Leaf className="w-12 h-12 text-primary mb-4" />
                             <h3 className="text-xl font-semibold mb-2">

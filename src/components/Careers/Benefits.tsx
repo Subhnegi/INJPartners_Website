@@ -61,10 +61,10 @@ const Benefits = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
-                        <Card>
+                        <Card className="border-[#4251f88b]">
                             <CardHeader>
                                 <CardTitle className="flex items-center">
-                                    {benefit.icon}
+                                    <span className="text-[#4251f88b]">{benefit.icon}</span>
                                     {benefit.title}
                                 </CardTitle>
                             </CardHeader>

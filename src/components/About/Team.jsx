@@ -1,13 +1,15 @@
 import React from 'react'
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
+import { Tilt } from 'react-tilt'
 const Team = ({ team }) => {
     return (
         <section className="mb-16">
             <h2 className="text-3xl font-semibold mb-6">Our Researcher Team</h2>
             <div className="grid md:grid-cols-3 gap-8">
                 {team.map((member) => (
-                    <Card key={member._id}>
+                    <Tilt key={member._id} >
+                    <Card className='border-[#4251f88b]'>
                         <CardContent className="p-6">
                             <div className="flex flex-col items-center">
                                 <Image
@@ -25,6 +27,7 @@ const Team = ({ team }) => {
                             </div>
                         </CardContent>
                     </Card>
+                    </Tilt>
                 ))}
             </div>
         </section>

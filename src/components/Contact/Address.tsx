@@ -4,11 +4,13 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion"; // Import Framer Motion
+import { Tilt } from "react-tilt";
 
 const Address = () => {
     return (
         <div className="space-y-8">
-            <Card>
+            <Tilt>
+            <Card className="border-[#4251f88b]">
                 <CardHeader>
                     <CardTitle>Our Offices</CardTitle>
                 </CardHeader>
@@ -55,6 +57,7 @@ const Address = () => {
                     </div>
                 </CardContent>
             </Card>
+            </Tilt>
         </div>
     );
 };

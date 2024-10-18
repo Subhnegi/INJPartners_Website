@@ -1,12 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { Tilt } from "react-tilt";
 const Founder = () => {
     return (
         <section className="mb-16">
             <h2 className="text-3xl font-semibold mb-6">Meet Our Founders</h2>
             <div className="grid md:grid-cols-2 gap-8">
-                <Card>
+                <Tilt>
+                <Card className="border-[#4251f88b]">
                     <CardContent className="p-6">
                         <div className="flex flex-col items-center">
                             <Image
@@ -32,7 +34,9 @@ const Founder = () => {
                         </div>
                     </CardContent>
                 </Card>
-                <Card>
+                </Tilt>
+                <Tilt>
+                <Card className="border-[#4251f88b]">
                     <CardContent className="p-6">
                         <div className="flex flex-col items-center">
                             <Image
@@ -58,6 +62,7 @@ const Founder = () => {
                         </div>
                     </CardContent>
                 </Card>
+                </Tilt>
             </div>
         </section>
     );

@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion"; // Import Framer Motion
+import { Tilt } from "react-tilt";
 
 interface JobOpening {
     _id: string;
@@ -38,7 +39,8 @@ const Openings: React.FC<OpeningsProps> = ({ jobOpenings }) => {
                         whileInView={{ opacity: 1, y: 0 }} // Animate to visible and up
                         transition={{ duration: 0.3, delay: index * 0.1 }} // Staggered entrance
                     >
-                        <Card>
+                        <Tilt>
+                        <Card className="border-[#4251f88b]">
                             <CardHeader>
                                 <div className="flex justify-between items-start">
                                     <div>
@@ -74,11 +76,12 @@ const Openings: React.FC<OpeningsProps> = ({ jobOpenings }) => {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button asChild>
+                                <Button asChild className="button-primary">
                                     <Link href="/careers/apply">Apply Now</Link>
                                 </Button>
                             </CardFooter>
                         </Card>
+                        </Tilt>
                     </motion.div>
                 ))}
             </div>

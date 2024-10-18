@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import CaseStudies from "@/components/Services/CaseStudies";
 import OurOffer from "@/components/Services/OurOffer";
+import Pyramid from '@/components/Loaders/Pyramid';
 interface Service {
 	_id: string;
 	title: string;
@@ -58,7 +59,7 @@ export default function ServicesPage() {
     }, []);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
 
     if (error) {
@@ -72,7 +73,7 @@ export default function ServicesPage() {
         <div className="container mx-auto px-4 py-8">
             <header className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-primary mb-2">
-                    Our Services
+                    Our <span className=" text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Services</span>
                 </h1>
                 <p className="text-xl text-muted-foreground">
                     Empowering Your Business with Data-Driven Insights

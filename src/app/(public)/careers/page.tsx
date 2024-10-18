@@ -6,6 +6,7 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import Openings from "@/components/Careers/Openings";
 import Benefits from "@/components/Careers/Benefits";
+import Pyramid from "@/components/Loaders/Pyramid";
 
 interface JobOpening {
     _id: string;
@@ -40,7 +41,7 @@ const CareersPage: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
 
     if (error) {
@@ -55,7 +56,7 @@ const CareersPage: React.FC = () => {
         <div className="container mx-auto px-4 py-8">
             <header className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-primary mb-2">
-                    Join Our Team
+                    Join Our <span className=" text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Team</span>
                 </h1>
                 <p className="text-xl text-muted-foreground">
                     Shape the Future of Market Research with Us

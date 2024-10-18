@@ -4,6 +4,7 @@ import { BarChart2, Users, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Tilt } from "react-tilt";
 
 const OurOffer = ({ services }) => {
     const getIconComponent = (iconName: string) => {
@@ -36,10 +37,11 @@ const OurOffer = ({ services }) => {
                                 ease: "easeOut",
                                 delay: index * 0.2,  // Staggered effect for each card
                             }}
-                        >
-                            <Card>
+                        >   
+                            <Tilt>
+                            <Card className="border-[#4251f88b]">
                                 <CardHeader>
-                                    <IconComponent className="w-10 h-10 text-primary mb-4" />
+                                    <IconComponent className="w-10 h-10  mb-4 text-[#4251f88b]" />
                                     <CardTitle>{offer.title}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -60,13 +62,14 @@ const OurOffer = ({ services }) => {
                                             <li key={benefit}>{benefit}</li>
                                         ))}
                                     </ul>
-                                    <Button asChild>
+                                    <Button asChild className="button-primary">
                                         <Link href={`/services/${offer._id}`}>
                                             Read More
                                         </Link>
                                     </Button>
                                 </CardContent>
                             </Card>
+                            </Tilt>
                         </motion.div>
                     );
                 })}

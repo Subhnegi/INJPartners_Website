@@ -22,6 +22,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Pyramid from "@/components/Loaders/Pyramid";
 
 ChartJS.register(
     CategoryScale,
@@ -72,7 +73,7 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
     }, [id]);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
 
     if (error) {
@@ -125,7 +126,7 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
             <header className="bg-primary text-primary-foreground py-6">
                 <div className="container mx-auto px-4">
                     <h1 className="text-3xl font-bold">
-                        MarketInsight Research
+                        MarketInsight <span className=" text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Research</span>
                     </h1>
                 </div>
             </header>
@@ -135,7 +136,7 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
                     Case Study: {study.title}
                 </h2>
 
-                <Card className="mb-12">
+                <Card className="mb-12 border-[#4251f88b]">
                     <CardHeader>
                         <CardTitle>Project Overview</CardTitle>
                         <CardDescription>{study.description}</CardDescription>
@@ -153,7 +154,7 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
                     </CardContent>
                 </Card>
 
-                <Card className="mb-12">
+                <Card className="mb-12 border-[#4251f88b]">
                     <CardHeader>
                         <CardTitle>Research Methodology</CardTitle>
                     </CardHeader>
@@ -168,7 +169,7 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
                     </CardContent>
                 </Card>
 
-                <Card className="mb-12">
+                <Card className="mb-12 border-[#4251f88b]">
                     <CardHeader>
                         <CardTitle>Results</CardTitle>
                         <CardDescription>
@@ -182,7 +183,7 @@ export default function CaseStudyPage({ params }: { params: { id: string } }) {
                     </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="border-[#4251f88b]">
                     <CardHeader>
                         <CardTitle>Key Insights</CardTitle>
                     </CardHeader>

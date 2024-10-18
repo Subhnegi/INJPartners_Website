@@ -7,6 +7,7 @@ import Team from "@/components/About/Team";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion"; // Import Framer Motion
+import Pyramid from "@/components/Loaders/Pyramid";
 
 interface TeamMember {
     _id: string;
@@ -36,7 +37,7 @@ export default function About() {
     }, []);
 
     if (loading) {
-        return <div className="container mx-auto px-4 py-8">Loading...</div>;
+        return <div className="container flex justify-center items-center h-screen"><Pyramid/></div>;
     }
     
     if (error) {
@@ -56,7 +57,7 @@ export default function About() {
         >
             <header className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-primary mb-2">
-                    INJ PARTNERS
+                    INJ <span className=" text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Partners</span>
                 </h1>
                 <p className="text-xl text-muted-foreground">
                     Illuminating Markets, Empowering Decisions
