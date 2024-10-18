@@ -32,7 +32,6 @@ const RecentProjects = ({ projects }: { projects: any[] }) => {
 									delay: index * 0.2,
 								}} // Add delay for a staggered effect
 							>
-								<Tilt>
 								<Card className="cursor-pointer">
 									<CardHeader>
 										<CardTitle>{project.title}</CardTitle>
@@ -56,7 +55,6 @@ const RecentProjects = ({ projects }: { projects: any[] }) => {
 										</p>
 									</CardFooter>
 								</Card>
-								</Tilt>
 							</motion.div>
 						</Link>
 					))}

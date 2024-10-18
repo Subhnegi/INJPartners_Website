@@ -38,7 +38,6 @@ const OurOffer = ({ services }) => {
                                 delay: index * 0.2,  // Staggered effect for each card
                             }}
                         >   
-                            <Tilt>
                             <Card className="border-[#4251f88b]">
                                 <CardHeader>
                                     <IconComponent className="w-10 h-10  mb-4 text-[#4251f88b]" />
@@ -62,14 +61,13 @@ const OurOffer = ({ services }) => {
                                             <li key={benefit}>{benefit}</li>
                                         ))}
                                     </ul>
-                                    <Button asChild className="button-primary">
+                                    <Button asChild className="button-primary text-primary">
                                         <Link href={`/services/${offer._id}`}>
                                             Read More
                                         </Link>
                                     </Button>
                                 </CardContent>
                             </Card>
-                            </Tilt>
                         </motion.div>
                     );
                 })}

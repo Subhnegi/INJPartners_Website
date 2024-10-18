@@ -37,7 +37,7 @@ const CaseStudies = ({ caseStudies }) => {
                                     <CardDescription className="mb-4">
                                         {study.description}
                                     </CardDescription>
-                                    <Button asChild className="button-primary">
+                                    <Button asChild className="button-primary text-primary">
                                         <Link href={`/case-studies/${study._id}`}>
                                             Read More
                                         </Link>

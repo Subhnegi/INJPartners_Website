@@ -39,7 +39,6 @@ const Openings: React.FC<OpeningsProps> = ({ jobOpenings }) => {
                         whileInView={{ opacity: 1, y: 0 }} // Animate to visible and up
                         transition={{ duration: 0.3, delay: index * 0.1 }} // Staggered entrance
                     >
-                        <Tilt>
                         <Card className="border-[#4251f88b]">
                             <CardHeader>
                                 <div className="flex justify-between items-start">
@@ -81,7 +80,6 @@ const Openings: React.FC<OpeningsProps> = ({ jobOpenings }) => {
                                 </Button>
                             </CardFooter>
                         </Card>
-                        </Tilt>
                     </motion.div>
                 ))}
             </div>

@@ -147,7 +147,7 @@ export default function BlogPage() {
                                 <div className="text-sm text-muted-foreground">
                                     By {post.author} | {post.date}
                                 </div>
-                                <Button asChild className="button-primary">
+                                <Button asChild className="button-primary text-primary">
                                     <Link href={`/blog/${post._id}`}>Read More</Link>
                                 </Button>
                             </CardFooter>
